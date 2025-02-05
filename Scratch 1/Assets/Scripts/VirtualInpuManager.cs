@@ -6,8 +6,8 @@ namespace DumbAssStudio
 {
     public class VirtualInpuManager : Singleton<VirtualInpuManager>
     {
-        public bool MouseRightClick;
-        public bool IsStopMoving;
-        public bool IsAttacking;
+        public bool mouseRightClick;
+        public bool isStopMoving;
+        public bool isAttacking;
     }
 }

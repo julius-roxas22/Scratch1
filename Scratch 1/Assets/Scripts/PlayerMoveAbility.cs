@@ -17,7 +17,7 @@ namespace DumbAssStudio
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
 
-            ControlledMoved(player, animator);
+            controlledMoved(player, animator);
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
@@ -25,28 +25,28 @@ namespace DumbAssStudio
 
         }
 
-        private void ControlledMoved(PlayerController player, Animator animator)
+        private void controlledMoved(PlayerController player, Animator animator)
         {
 
-            if (player.GetPlayerAnimatorProgress.IsWalking)
+            if (player.getPlayerAnimatorProgress.IsWalking)
             {
-                player.GetNavMeshAgent.SetDestination(player.GetRayCastHitPoint);
+                player.getNavMeshAgent.SetDestination(player.getRayCastHitPoint);
             }
 
-            float distance = (player.GetRayCastHitPoint - player.transform.position).sqrMagnitude; /* Vector3.Distance(player.transform.position, player.GetRayCastHitPoint) */;
+            float distance = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude; /* Vector3.Distance(player.transform.position, player.GetRayCastHitPoint) */;
 
             if (distance < stoppingDistance)
             {
-                player.GetPlayerAnimatorProgress.IsWalking = false;
+                player.getPlayerAnimatorProgress.IsWalking = false;
             }
 
-            if (VirtualInpuManager.GetInstance.IsStopMoving)
+            if (VirtualInpuManager.getInstance.isStopMoving)
             {
-                player.GetNavMeshAgent.isStopped = true;
-                player.GetPlayerAnimatorProgress.IsWalking = false;
+                player.getNavMeshAgent.isStopped = true;
+                player.getPlayerAnimatorProgress.IsWalking = false;
             }
 
-            if (!player.GetPlayerAnimatorProgress.IsWalking)
+            if (!player.getPlayerAnimatorProgress.IsWalking)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
             }

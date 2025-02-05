@@ -16,18 +16,18 @@ namespace DumbAssStudio
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
 
-            ControlledMoved(player, animator);
+            controlledMoved(player, animator);
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
 
         }
-        private void ControlledMoved(PlayerController player, Animator animator)
+        private void controlledMoved(PlayerController player, Animator animator)
         {
-            if (player.GetPlayerAnimatorProgress.IsWalking)
+            if (player.getPlayerAnimatorProgress.IsWalking)
             {
-                player.GetNavMeshAgent.isStopped = false;
+                player.getNavMeshAgent.isStopped = false;
                 animator.SetBool(TransitionParameters.Walk.ToString(), true);
             }
         }

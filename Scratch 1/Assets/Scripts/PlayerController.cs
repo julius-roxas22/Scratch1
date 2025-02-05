@@ -20,12 +20,14 @@ namespace DumbAssStudio
 
         public List<ObjectType> gameObjectAvoidanceList = new List<ObjectType>();
 
+        public GameObject interactionObject = null;
+
         public void setRayCastHitPoint(Vector3 point)
         {
             rayCastHitPoint = point;
         }
 
-        public Vector3 GetRayCastHitPoint
+        public Vector3 getRayCastHitPoint
         {
             get
             {
@@ -33,7 +35,7 @@ namespace DumbAssStudio
             }
         }
 
-        public CharacterAttributes GetAttributes
+        public CharacterAttributes getAttributes
         {
             get
             {
@@ -45,7 +47,7 @@ namespace DumbAssStudio
             }
         }
 
-        public PlayerAnimatorProgress GetPlayerAnimatorProgress
+        public PlayerAnimatorProgress getPlayerAnimatorProgress
         {
             get
             {
@@ -57,7 +59,7 @@ namespace DumbAssStudio
             }
         }
 
-        public NavMeshAgent GetNavMeshAgent
+        public NavMeshAgent getNavMeshAgent
         {
             get
             {
@@ -73,20 +75,65 @@ namespace DumbAssStudio
 
         private void Update()
         {
+            mouseMovement();
 
-            Ray ray = CameraManager.GetInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (VirtualInpuManager.GetInstance.MouseRightClick)
-            {
-                if (Physics.Raycast(ray, out hit))
-                {
-                    CheckValidToMove(hit);
-                }
-            }
+            playerInteractionObject();
 
             foreach (GameObject o in obj)
             {
                 Destroy(o, 3f); //temporary instantiate some hit point gameobject
+            }
+        }
+
+        private void mouseMovement()
+        {
+            Ray ray = CameraManager.getInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (VirtualInpuManager.getInstance.mouseRightClick)
+            {
+                if (Physics.Raycast(ray, out hit))
+                {
+                    checkValidToMove(hit);
+                }
+            }
+        }
+
+        private void playerInteractionObject()
+        {
+            PlayerController playerController = null;
+            if (enabled)
+            {
+                playerController = this;
+            }
+
+            GameObject enemy = null;
+
+            if (null != interactionObject)
+            {
+                enemy = interactionObject;
+            }
+
+            if (null == interactionObject)
+            {
+                return;
+            }
+
+            float dist = (enemy.transform.position - playerController.transform.position).sqrMagnitude;
+
+            if (dist < getAttributes.attackRange)
+            {
+                getNavMeshAgent.isStopped = true;
+                VirtualInpuManager.getInstance.isAttacking = true;
+                getPlayerAnimatorProgress.IsWalking = false;
+                lookRotation(enemy, Vector3.up);
+            }
+            else
+            {
+                getNavMeshAgent.isStopped = false;
+                VirtualInpuManager.getInstance.isAttacking = false;
+                getPlayerAnimatorProgress.IsWalking = true;
+                setRayCastHitPoint(enemy.transform.position);
+                lookRotation(enemy, Vector3.up);
             }
         }
 
@@ -117,7 +164,7 @@ namespace DumbAssStudio
             transform.rotation = lookRotate;
         }
 
-        private void CheckValidToMove(RaycastHit hit)
+        private void checkValidToMove(RaycastHit hit)
         {
             if (hit.collider.gameObject == this.gameObject)
             {
@@ -145,13 +192,13 @@ namespace DumbAssStudio
                     {
                         lookRotation(hit);
                         playerAnimatorProgress.IsWalking = true;
-                        GameManager.GetInstance.PlayerInteractionObject = null;
+                        interactionObject = null;
                         break;
                     }
                 case ObjectType.Enemy:
                     {
                         lookRotation(hit);
-                        GameManager.GetInstance.PlayerInteractionObject = gameObjectType.gameObject;
+                        interactionObject = gameObjectType.gameObject;
                         break;
                     }
             }

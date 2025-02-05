@@ -6,19 +6,19 @@ namespace DumbAssStudio
 {
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private static T Instance;
+        private static T instance;
 
-        public static T GetInstance
+        public static T getInstance
         {
             get
             {
-                if (null == Instance)
+                if (null == instance)
                 {
                     GameObject obj = new GameObject();
-                    Instance = obj.AddComponent<T>();
+                    instance = obj.AddComponent<T>();
                     obj.name = typeof(T).ToString();
                 }
-                return Instance;
+                return instance;
             }
         }
     }

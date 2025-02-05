@@ -23,7 +23,7 @@ namespace DumbAssStudio
 
         private void Awake()
         {
-            foreach (PlayerController p in GameManager.GetInstance.playerList)
+            foreach (PlayerController p in GameManager.getInstance.playerList)
             {
                 if (p.gameObject.activeInHierarchy)
                 {
@@ -64,7 +64,7 @@ namespace DumbAssStudio
 
             RaycastHit hit;
 
-            foreach (Obstacle o in GameManager.GetInstance.gameObjectObstacleList)
+            foreach (Obstacle o in GameManager.getInstance.gameObjectObstacleList)
             {
                 if (Physics.Raycast(GetCamera.transform.position, Vector3.forward - (GetCamera.transform.position - playableCharacter.transform.position), out hit))
                 {
