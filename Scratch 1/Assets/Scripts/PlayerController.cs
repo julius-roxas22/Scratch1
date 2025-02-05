@@ -8,7 +8,9 @@ namespace DumbAssStudio
     public enum TransitionParameters
     {
         Walk,
-        SpellAttack1
+        SpellAttack1,
+        Normal_Attack,
+        ForceTransition,
     }
 
     public class PlayerController : MonoBehaviour
@@ -205,5 +207,6 @@ namespace DumbAssStudio
 
             setRayCastHitPoint(hit.point);
         }
+
     }
 }

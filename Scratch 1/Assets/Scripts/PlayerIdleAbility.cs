@@ -7,7 +7,6 @@ namespace DumbAssStudio
     [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerIdle")]
     public class PlayerIdleAbility : AbilityStateBase
     {
-
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
 
@@ -15,7 +14,6 @@ namespace DumbAssStudio
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-
             controlledMoved(player, animator);
         }
 
@@ -29,6 +27,11 @@ namespace DumbAssStudio
             {
                 player.getNavMeshAgent.isStopped = false;
                 animator.SetBool(TransitionParameters.Walk.ToString(), true);
+            }
+
+            if (VirtualInpuManager.getInstance.isAttacking)
+            {
+                animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
             }
         }
     }
