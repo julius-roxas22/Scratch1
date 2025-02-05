@@ -442,7 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83741671b570ae74fa7c04c4fdc62413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 15
+  attackRange: 1.9
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1740,6 +1740,7 @@ GameObject:
   - component: {fileID: 1610050165}
   - component: {fileID: 1610050164}
   - component: {fileID: 1610050168}
+  - component: {fileID: 1610050169}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1846,6 +1847,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 1
+--- !u!208 &1610050169
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610050163}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.35, y: 0.5, z: 0.35}
+  m_MoveThreshold: 0
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1907559538
 GameObject:
   m_ObjectHideFlags: 0

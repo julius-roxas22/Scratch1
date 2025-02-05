@@ -20,7 +20,7 @@ namespace DumbAssStudio
 
         public List<ObjectType> gameObjectAvoidanceList = new List<ObjectType>();
 
-        private void setRayCastHitPoint(Vector3 point)
+        public void setRayCastHitPoint(Vector3 point)
         {
             rayCastHitPoint = point;
         }
@@ -108,6 +108,15 @@ namespace DumbAssStudio
             transform.rotation = /*Quaternion.LookRotation(lookDir, Vector3.up);*/ lookRotation;
         }
 
+        public void lookRotation(GameObject objectPosition, Vector3 upwardSet)
+        {
+            Vector3 lookDir = objectPosition.transform.position - transform.position;
+            lookDir.y = 0;
+
+            Quaternion lookRotate = Quaternion.LookRotation(lookDir, upwardSet);
+            transform.rotation = lookRotate;
+        }
+
         private void CheckValidToMove(RaycastHit hit)
         {
             if (hit.collider.gameObject == this.gameObject)
@@ -141,46 +150,13 @@ namespace DumbAssStudio
                     }
                 case ObjectType.Enemy:
                     {
-
                         lookRotation(hit);
-
-                        float dist = (gameObjectType.transform.position - transform.position).sqrMagnitude;
-
                         GameManager.GetInstance.PlayerInteractionObject = gameObjectType.gameObject;
-
-                        //if (dist < GetAttributes.attackRange)
-                        //{
-                        //    Debug.Log("player will attack instantly");
-                        //    playerAnimatorProgress.IsWalking = false;
-
-                        //    if (!playerAnimatorProgress.IsWalking && dist > GetAttributes.attackRange)
-                        //    {
-                        //        Debug.Log("Player is chasing the enemy to attack");
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    playerAnimatorProgress.IsWalking = true;
-
-                        //    if (dist < GetAttributes.attackRange && playerAnimatorProgress.IsWalking)
-                        //    {
-                        //        playerAnimatorProgress.IsWalking = false;
-
-                        //        Debug.Log("player will start attacking the enemy when its already close to him");
-                        //    }
-
-                        //    Debug.Log("Player is too far from enemy and start to close to attack the enemy");
-                        //}
-
-                        //Debug.Log("distance between " + gameObjectType.name + " and " + gameObject.name + "  is =" + dist);
-
                         break;
                     }
             }
 
-            GetNavMeshAgent.stoppingDistance = 0;
             setRayCastHitPoint(hit.point);
-            //GameManager.GetInstance.PlayerInteractionObject = null;
         }
     }
 }

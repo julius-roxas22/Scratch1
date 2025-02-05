@@ -40,7 +40,7 @@ namespace DumbAssStudio
                 player.GetPlayerAnimatorProgress.IsWalking = false;
             }
 
-            if (VirtualInpuManager.GetInstance.IsStop)
+            if (VirtualInpuManager.GetInstance.IsStopMoving)
             {
                 player.GetNavMeshAgent.isStopped = true;
                 player.GetPlayerAnimatorProgress.IsWalking = false;

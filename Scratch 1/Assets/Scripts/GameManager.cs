@@ -43,9 +43,31 @@ namespace DumbAssStudio
                 enemy = PlayerInteractionObject;
             }
 
+            if (null == enemy)
+            {
+                return;
+            }
+
             float dist = (enemy.transform.position - player.transform.position).sqrMagnitude;
 
-            Debug.Log("distance between " + enemy.name + " and " + player.name + "  is =" + dist);
+            if (dist < player.GetAttributes.attackRange)
+            {
+                player.GetPlayerAnimatorProgress.IsWalking = false;
+                player.GetNavMeshAgent.isStopped = true;
+                VirtualInpuManager.GetInstance.IsAttacking = true;
+
+                player.lookRotation(enemy, Vector3.up);
+            }
+            else if (dist > player.GetAttributes.attackRange)
+            {
+                player.GetPlayerAnimatorProgress.IsWalking = true;
+                player.GetNavMeshAgent.isStopped = false;
+                VirtualInpuManager.GetInstance.IsAttacking = false;
+
+                player.setRayCastHitPoint(enemy.transform.position);
+                player.lookRotation(enemy, Vector3.up);
+
+            }
         }
 
         private void Player()
