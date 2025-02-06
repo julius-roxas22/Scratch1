@@ -128,6 +128,7 @@ namespace DumbAssStudio
                 VirtualInpuManager.getInstance.isAttacking = true;
                 getPlayerAnimatorProgress.IsWalking = false;
                 lookRotation(enemy, Vector3.up);
+                Debug.Log(playerController.name + " and " + enemy.name + " position is = " + dist);
             }
             else
             {
@@ -195,6 +196,7 @@ namespace DumbAssStudio
                         lookRotation(hit);
                         playerAnimatorProgress.IsWalking = true;
                         interactionObject = null;
+                        VirtualInpuManager.getInstance.isAttacking = false;
                         break;
                     }
                 case ObjectType.Enemy:

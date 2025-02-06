@@ -10,8 +10,7 @@ namespace DumbAssStudio
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            player.getNavMeshAgent.isStopped = true;
-            animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
+
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
@@ -21,9 +20,8 @@ namespace DumbAssStudio
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            VirtualInpuManager.getInstance.isAttacking = false;
-            player.getNavMeshAgent.isStopped = true;
-            animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
+            //VirtualInpuManager.getInstance.isAttacking = false;
+            //animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
         }
     }
 }
