@@ -9,7 +9,6 @@ namespace DumbAssStudio
     {
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-
             if (VirtualInpuManager.getInstance.isAttacking)
             {
                 animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
@@ -23,8 +22,6 @@ namespace DumbAssStudio
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
             controlledMoved(player, animator);
-
-
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
@@ -43,6 +40,7 @@ namespace DumbAssStudio
             if (VirtualInpuManager.getInstance.isAttacking)
             {
                 animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
+                player.offSetToAttack = player.transform.position;
             }
         }
     }

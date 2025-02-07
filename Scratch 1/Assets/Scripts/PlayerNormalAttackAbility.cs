@@ -10,12 +10,11 @@ namespace DumbAssStudio
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-
+            player.transform.position = player.offSetToAttack;
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)

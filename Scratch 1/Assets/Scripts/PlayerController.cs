@@ -23,6 +23,7 @@ namespace DumbAssStudio
         public List<ObjectType> gameObjectAvoidanceList = new List<ObjectType>();
 
         public GameObject interactionObject = null;
+        public Vector3 offSetToAttack;
 
         public void setRayCastHitPoint(Vector3 point)
         {
@@ -128,15 +129,15 @@ namespace DumbAssStudio
                 VirtualInpuManager.getInstance.isAttacking = true;
                 getPlayerAnimatorProgress.IsWalking = false;
                 lookRotation(enemy, Vector3.up);
-                Debug.Log(playerController.name + " and " + enemy.name + " position is = " + dist);
             }
             else
             {
                 getNavMeshAgent.isStopped = false;
                 VirtualInpuManager.getInstance.isAttacking = false;
                 getPlayerAnimatorProgress.IsWalking = true;
-                setRayCastHitPoint(enemy.transform.position);
                 lookRotation(enemy, Vector3.up);
+
+                if (!VirtualInpuManager.getInstance.isAttacking) setRayCastHitPoint(enemy.transform.position);
             }
         }
 

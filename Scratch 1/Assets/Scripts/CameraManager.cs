@@ -77,7 +77,7 @@ namespace DumbAssStudio
                 o.opacityIntensity = 1f;
             }
 
-            Debug.DrawRay(GetCamera.transform.position, Vector3.forward - (GetCamera.transform.position - playableCharacter.transform.position), Color.red);
+            //Debug.DrawRay(GetCamera.transform.position, Vector3.forward - (GetCamera.transform.position - playableCharacter.transform.position), Color.red);
         }
     }
 
