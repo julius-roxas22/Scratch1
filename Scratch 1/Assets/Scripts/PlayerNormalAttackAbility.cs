@@ -10,17 +10,18 @@ namespace DumbAssStudio
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
+
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
             player.transform.position = player.offSetToAttack;
+            player.canlookRotate = false;
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            //VirtualInpuManager.getInstance.isAttacking = false;
-            //animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
+            player.canlookRotate = true;
         }
     }
 }

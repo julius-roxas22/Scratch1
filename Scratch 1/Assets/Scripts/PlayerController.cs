@@ -24,6 +24,7 @@ namespace DumbAssStudio
 
         public GameObject interactionObject = null;
         public Vector3 offSetToAttack;
+        public bool canlookRotate;
 
         public void setRayCastHitPoint(Vector3 point)
         {
@@ -136,8 +137,6 @@ namespace DumbAssStudio
                 VirtualInpuManager.getInstance.isAttacking = false;
                 getPlayerAnimatorProgress.IsWalking = true;
                 lookRotation(enemy, Vector3.up);
-
-                if (!VirtualInpuManager.getInstance.isAttacking) setRayCastHitPoint(enemy.transform.position);
             }
         }
 
@@ -194,7 +193,10 @@ namespace DumbAssStudio
             {
                 case ObjectType.Ground:
                     {
-                        lookRotation(hit);
+                        if (canlookRotate)
+                        {
+                            lookRotation(hit);
+                        }
                         playerAnimatorProgress.IsWalking = true;
                         interactionObject = null;
                         VirtualInpuManager.getInstance.isAttacking = false;
