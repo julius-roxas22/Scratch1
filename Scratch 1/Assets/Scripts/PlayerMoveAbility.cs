@@ -28,7 +28,7 @@ namespace DumbAssStudio
         private void controlledMoved(PlayerController player, Animator animator)
         {
 
-            if (player.getPlayerAnimatorProgress.IsWalking)
+            if (player.isWalking)
             {
                 player.getNavMeshAgent.SetDestination(player.getRayCastHitPoint);
             }
@@ -37,16 +37,16 @@ namespace DumbAssStudio
 
             if (distance < stoppingDistance)
             {
-                player.getPlayerAnimatorProgress.IsWalking = false;
+                player.getPlayerAnimatorProgress.isWalking = false;
             }
 
-            if (VirtualInpuManager.getInstance.isStopMoving)
+            if (player.isStopMoving)
             {
                 player.getNavMeshAgent.isStopped = true;
-                player.getPlayerAnimatorProgress.IsWalking = false;
+                player.getPlayerAnimatorProgress.isWalking = false;
             }
 
-            if (!player.getPlayerAnimatorProgress.IsWalking)
+            if (!player.isWalking)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
             }

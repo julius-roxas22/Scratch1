@@ -6,7 +6,7 @@ namespace DumbAssStudio
 {
     public class PlayerAnimatorProgress : MonoBehaviour
     {
-        public bool IsWalking;
+        public bool isWalking;
     }
 }
 

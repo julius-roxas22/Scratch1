@@ -26,6 +26,11 @@ namespace DumbAssStudio
         public Vector3 offSetToAttack;
         public bool canlookRotate;
 
+        public bool isWalking;
+        public bool isAttacking;
+        public bool isStopMoving;
+        public bool rightMouseClick;
+
         public void setRayCastHitPoint(Vector3 point)
         {
             rayCastHitPoint = point;
@@ -93,7 +98,7 @@ namespace DumbAssStudio
         {
             Ray ray = CameraManager.getInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (VirtualInpuManager.getInstance.mouseRightClick)
+            if (rightMouseClick)
             {
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -128,14 +133,14 @@ namespace DumbAssStudio
             {
                 getNavMeshAgent.isStopped = true;
                 VirtualInpuManager.getInstance.isAttacking = true;
-                getPlayerAnimatorProgress.IsWalking = false;
+                getPlayerAnimatorProgress.isWalking = false;
                 lookRotation(enemy, Vector3.up);
             }
             else
             {
                 getNavMeshAgent.isStopped = false;
                 VirtualInpuManager.getInstance.isAttacking = false;
-                getPlayerAnimatorProgress.IsWalking = true;
+                getPlayerAnimatorProgress.isWalking = true;
                 lookRotation(enemy, Vector3.up);
             }
         }
@@ -197,7 +202,7 @@ namespace DumbAssStudio
                         {
                             lookRotation(hit);
                         }
-                        playerAnimatorProgress.IsWalking = true;
+                        getPlayerAnimatorProgress.isWalking = true;
                         interactionObject = null;
                         VirtualInpuManager.getInstance.isAttacking = false;
                         break;

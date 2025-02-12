@@ -9,7 +9,7 @@ namespace DumbAssStudio
     {
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            if (VirtualInpuManager.getInstance.isAttacking)
+            if (player.isAttacking)
             {
                 animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
             }
@@ -32,13 +32,13 @@ namespace DumbAssStudio
 
         private void controlledMoved(PlayerController player, Animator animator)
         {
-            if (player.getPlayerAnimatorProgress.IsWalking)
+            if (player.isWalking)
             {
                 player.getNavMeshAgent.isStopped = false;
                 animator.SetBool(TransitionParameters.Walk.ToString(), true);
             }
 
-            if (VirtualInpuManager.getInstance.isAttacking)
+            if (player.isAttacking)
             {
                 animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
                 player.offSetToAttack = player.transform.position;
