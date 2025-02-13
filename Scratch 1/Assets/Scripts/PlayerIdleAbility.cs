@@ -10,7 +10,7 @@ namespace DumbAssStudio
         public float stoppingDistance;
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-           
+
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
@@ -29,6 +29,7 @@ namespace DumbAssStudio
             if (player.isMoving && dist > stoppingDistance)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), true);
+                player.getNavMeshAgent.isStopped = false;
             }
         }
     }

@@ -86,18 +86,32 @@ namespace DumbAssStudio
         }
 
         public List<GameObject> obj = new List<GameObject>();
+        public float radius;
+        public LayerMask mask;
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(transform.position, radius);
+            Gizmos.color = Color.red;
+        }
 
         private void Update()
         {
+
             mouseMovement();
 
             //playerInteractionObject();
+
+            //to be continued
+            if (Physics.CheckSphere(transform.position, radius, mask))
+            {
+                VirtualInpuManager.getInstance.isMoving = false;
+            }
 
             foreach (GameObject o in obj) // it simply destroy the hit point object
             {
                 Destroy(o, 3f);
             }
-
         }
 
         private void mouseMovement()
@@ -112,6 +126,7 @@ namespace DumbAssStudio
                     targetPosition.y = transform.position.y;
                     setRayCastHitPoint(targetPosition);
                     VirtualInpuManager.getInstance.isMoving = true;
+                    //checkValidToMove(hit.collider);//validate to move the player
                 }
 
                 #region instantiate hit point object
@@ -145,7 +160,14 @@ namespace DumbAssStudio
 
         public void playerMove(float movementSpeed)
         {
-            transform.position = Vector3.MoveTowards(transform.position, getRayCastHitPoint, movementSpeed * Time.deltaTime);
+            if (isStopMoving)
+            {
+                VirtualInpuManager.getInstance.isMoving = false;
+            }
+
+            getNavMeshAgent.SetDestination(getRayCastHitPoint);
+
+            //transform.position = Vector3.MoveTowards(transform.position, getRayCastHitPoint, movementSpeed * Time.deltaTime);
         }
 
         //private void playerInteractionObject()
@@ -185,13 +207,32 @@ namespace DumbAssStudio
         //        lookRotation(enemy, Vector3.up);
         //    }
         //}
-
         private void checkValidToMove(Collider col)
         {
-            if (gameObject == col.gameObject)
-            {
-                VirtualInpuManager.getInstance.isMoving = false;
-            }
+            //GameObject notWalkablePath = col.gameObject;
+
+            //float dist = (notWalkablePath.transform.position - transform.position).sqrMagnitude;
+
+            //GameObjectType type = notWalkablePath.GetComponent<GameObjectType>();
+
+            //if (type.Equals(null))
+            //{
+            //    return;
+            //}
+
+            //if (type.Equals(ObjectType.Ground))
+            //{
+            //    return;
+            //}
+
+            //if (type.Equals(ObjectType.Pole) || type.Equals(ObjectType.Tree))
+            //{
+            //    if (dist < notWalkablePathDistance)
+            //    {
+            //        Debug.Log("Not walkable path");
+            //        VirtualInpuManager.getInstance.isMoving = false;
+            //    }
+            //}
 
             //float dist = (col.gameObject.transform.position - transform.position).sqrMagnitude;
 
