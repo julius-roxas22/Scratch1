@@ -7,7 +7,7 @@ namespace DumbAssStudio
     [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerMove")]
     public class PlayerMoveAbility : AbilityStateBase
     {
-        public float stoppingDistance;
+        public float movementSpeed;
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
@@ -28,25 +28,12 @@ namespace DumbAssStudio
         private void controlledMoved(PlayerController player, Animator animator)
         {
 
-            if (player.isWalking)
+            if (player.isMoving)
             {
-                player.getNavMeshAgent.SetDestination(player.getRayCastHitPoint);
+                player.playerMove(movementSpeed);
             }
 
-            float distance = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude; /* Vector3.Distance(player.transform.position, player.GetRayCastHitPoint) */;
-
-            if (distance < stoppingDistance)
-            {
-                player.getPlayerAnimatorProgress.isWalking = false;
-            }
-
-            if (player.isStopMoving)
-            {
-                player.getNavMeshAgent.isStopped = true;
-                player.getPlayerAnimatorProgress.isWalking = false;
-            }
-
-            if (!player.isWalking)
+            if (!player.isMoving)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
             }

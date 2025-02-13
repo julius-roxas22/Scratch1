@@ -9,5 +9,6 @@ namespace DumbAssStudio
         public bool rightMouseClick;
         public bool isStopMoving;
         public bool isAttacking;
+        public bool isMoving;
     }
 }

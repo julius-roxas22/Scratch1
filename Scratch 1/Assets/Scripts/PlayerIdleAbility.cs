@@ -7,17 +7,10 @@ namespace DumbAssStudio
     [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerIdle")]
     public class PlayerIdleAbility : AbilityStateBase
     {
+        public float stoppingDistance;
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            if (player.isAttacking)
-            {
-                animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
-            }
-            else
-            {
-                animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
-            }
-            player.canlookRotate = true;
+           
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
@@ -32,16 +25,10 @@ namespace DumbAssStudio
 
         private void controlledMoved(PlayerController player, Animator animator)
         {
-            if (player.isWalking)
+            float dist = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude;
+            if (player.isMoving && dist > stoppingDistance)
             {
-                player.getNavMeshAgent.isStopped = false;
                 animator.SetBool(TransitionParameters.Walk.ToString(), true);
-            }
-
-            if (player.isAttacking)
-            {
-                animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
-                player.offSetToAttack = player.transform.position;
             }
         }
     }

@@ -17,7 +17,6 @@ namespace DumbAssStudio
     {
         private NavMeshAgent agent;
         private PlayerAnimatorProgress playerAnimatorProgress;
-        private Vector3 rayCastHitPoint;
         private CharacterAttributes attributes;
 
         public List<ObjectType> gameObjectAvoidanceList = new List<ObjectType>();
@@ -30,6 +29,12 @@ namespace DumbAssStudio
         public bool isAttacking;
         public bool isStopMoving;
         public bool rightMouseClick;
+
+        //public Vector3 targetPosition;
+        private Vector3 rayCastHitPoint;
+        public bool isMoving;
+        public float objectDistanceToStop;
+        public float rotationSpeed;
 
         public void setRayCastHitPoint(Vector3 point)
         {
@@ -86,12 +91,13 @@ namespace DumbAssStudio
         {
             mouseMovement();
 
-            playerInteractionObject();
+            //playerInteractionObject();
 
-            foreach (GameObject o in obj)
+            foreach (GameObject o in obj) // it simply destroy the hit point object
             {
-                Destroy(o, 3f); //temporary instantiate some hit point gameobject
+                Destroy(o, 3f);
             }
+
         }
 
         private void mouseMovement()
@@ -102,120 +108,140 @@ namespace DumbAssStudio
             {
                 if (Physics.Raycast(ray, out hit))
                 {
-                    checkValidToMove(hit);
+                    Vector3 targetPosition = hit.point;
+                    targetPosition.y = transform.position.y;
+                    setRayCastHitPoint(targetPosition);
+                    VirtualInpuManager.getInstance.isMoving = true;
                 }
-            }
-        }
 
-        private void playerInteractionObject()
-        {
-            PlayerController playerController = null;
-            if (enabled)
-            {
-                playerController = this;
-            }
+                #region instantiate hit point object
+                GameObject hitPoint = Instantiate(Resources.Load("HitPoint", typeof(GameObject))) as GameObject;
 
-            GameObject enemy = null;
+                hitPoint.transform.position = getRayCastHitPoint;
 
-            if (null != interactionObject)
-            {
-                enemy = interactionObject;
+                obj.Add(hitPoint);
+                #endregion
             }
 
-            if (null == interactionObject)
+            if (isMoving)
             {
-                return;
-            }
+                Vector3 dir = getRayCastHitPoint - transform.position;
+                dir.y = 0;
 
-            float dist = (enemy.transform.position - playerController.transform.position).sqrMagnitude;
-
-            if (dist < getAttributes.attackRange)
-            {
-                getNavMeshAgent.isStopped = true;
-                VirtualInpuManager.getInstance.isAttacking = true;
-                getPlayerAnimatorProgress.isWalking = false;
-                lookRotation(enemy, Vector3.up);
-            }
-            else
-            {
-                getNavMeshAgent.isStopped = false;
-                VirtualInpuManager.getInstance.isAttacking = false;
-                getPlayerAnimatorProgress.isWalking = true;
-                lookRotation(enemy, Vector3.up);
-            }
-        }
-
-        private void lookRotation(RaycastHit hit)
-        {
-            GameObject hitPoint = Instantiate(Resources.Load("HitPoint", typeof(GameObject))) as GameObject;
-
-            hitPoint.transform.position = hit.point;
-
-            obj.Add(hitPoint);
-
-            Vector3 lookDir = hit.point - transform.position;
-            lookDir.y = 0;
-
-            Quaternion lookRotation = Quaternion.LookRotation(lookDir, Vector3.up);
-
-            //Quaternion smoothRotate = Quaternion.Lerp(transform.rotation, lookRotation, smoothRotation);
-
-            transform.rotation = /*Quaternion.LookRotation(lookDir, Vector3.up);*/ lookRotation;
-        }
-
-        public void lookRotation(GameObject objectPosition, Vector3 upwardSet)
-        {
-            Vector3 lookDir = objectPosition.transform.position - transform.position;
-            lookDir.y = 0;
-
-            Quaternion lookRotate = Quaternion.LookRotation(lookDir, upwardSet);
-            transform.rotation = lookRotate;
-        }
-
-        private void checkValidToMove(RaycastHit hit)
-        {
-            if (hit.collider.gameObject == this.gameObject)
-            {
-                return;
-            }
-
-            GameObjectType gameObjectType = hit.collider.transform.root.GetComponent<GameObjectType>();
-
-            if (null == gameObjectType)
-            {
-                return;
-            }
-
-            foreach (ObjectType objectType in gameObjectAvoidanceList)
-            {
-                if (objectType.Equals(gameObjectType.objectType))
+                if (dir != Vector3.zero)
                 {
-                    return;
+                    Quaternion targetRotation = Quaternion.LookRotation(dir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                }
+
+                float dist = (getRayCastHitPoint - transform.position).sqrMagnitude;
+
+                if (dist < objectDistanceToStop)
+                {
+                    VirtualInpuManager.getInstance.isMoving = false;
                 }
             }
+        }
 
-            switch (gameObjectType.objectType)
+        public void playerMove(float movementSpeed)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, getRayCastHitPoint, movementSpeed * Time.deltaTime);
+        }
+
+        //private void playerInteractionObject()
+        //{
+        //    PlayerController playerController = null;
+        //    if (enabled)
+        //    {
+        //        playerController = this;
+        //    }
+
+        //    GameObject enemy = null;
+
+        //    if (null != interactionObject)
+        //    {
+        //        enemy = interactionObject;
+        //    }
+
+        //    if (null == interactionObject)
+        //    {
+        //        return;
+        //    }
+
+        //    float dist = (enemy.transform.position - playerController.transform.position).sqrMagnitude;
+
+        //    if (dist < getAttributes.attackRange)
+        //    {
+        //        getNavMeshAgent.isStopped = true;
+        //        VirtualInpuManager.getInstance.isAttacking = true;
+        //        getPlayerAnimatorProgress.isWalking = false;
+        //        lookRotation(enemy, Vector3.up);
+        //    }
+        //    else
+        //    {
+        //        getNavMeshAgent.isStopped = false;
+        //        VirtualInpuManager.getInstance.isAttacking = false;
+        //        getPlayerAnimatorProgress.isWalking = true;
+        //        lookRotation(enemy, Vector3.up);
+        //    }
+        //}
+
+        private void checkValidToMove(Collider col)
+        {
+            if (gameObject == col.gameObject)
             {
-                case ObjectType.Ground:
-                    {
-                        if (canlookRotate)
-                        {
-                            lookRotation(hit);
-                        }
-                        getPlayerAnimatorProgress.isWalking = true;
-                        interactionObject = null;
-                        VirtualInpuManager.getInstance.isAttacking = false;
-                        break;
-                    }
-                case ObjectType.Enemy:
-                    {
-                        lookRotation(hit);
-                        interactionObject = gameObjectType.gameObject;
-                        break;
-                    }
+                VirtualInpuManager.getInstance.isMoving = false;
             }
 
-            setRayCastHitPoint(hit.point);
+            //float dist = (col.gameObject.transform.position - transform.position).sqrMagnitude;
+
+            //if (dist < objectDistanceToStop)
+            //{
+            //    VirtualInpuManager.getInstance.isMoving = false;
+            //}
+
+            //if (hit.collider.gameObject == this.gameObject)
+            //{
+            //    return;
+            //}
+
+            //GameObjectType gameObjectType = hit.collider.transform.root.GetComponent<GameObjectType>();
+
+            //if (null == gameObjectType)
+            //{
+            //    return;
+            //}
+
+            //foreach (ObjectType objectType in gameObjectAvoidanceList)
+            //{
+            //    if (objectType.Equals(gameObjectType.objectType))
+            //    {
+            //        return;
+            //    }
+            //}
+
+            //switch (gameObjectType.objectType)
+            //{
+            //    case ObjectType.Ground:
+            //        {
+            //            if (canlookRotate)
+            //            {
+            //                lookRotation(hit);
+            //            }
+            //            getPlayerAnimatorProgress.isWalking = true;
+            //            interactionObject = null;
+            //            VirtualInpuManager.getInstance.isAttacking = false;
+            //            break;
+            //        }
+            //    case ObjectType.Enemy:
+            //        {
+            //            lookRotation(hit);
+            //            interactionObject = gameObjectType.gameObject;
+            //            break;
+            //        }
+            //}
+
+            //setRayCastHitPoint(hit.point);
         }
 
     }
