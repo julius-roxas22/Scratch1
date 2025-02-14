@@ -30,16 +30,23 @@ namespace DumbAssStudio
             if (player.isMoving)
             {
                 player.playerMove(movementSpeed);
-                player.getNavMeshAgent.isStopped = false;
+                //player.getNavMeshAgent.isStopped = false;
             }
 
-            //float dist = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude;
-            if (!player.isMoving /*&& dist > stoppingDistance*/)
+            if (!player.isMoving)
             {
-                //Debug.Log("Stopping distance " + dist);
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
-                player.getNavMeshAgent.isStopped = true;
+                //player.getNavMeshAgent.isStopped = true;
             }
+
+            float dist = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude;
+
+            //if (dist < stoppingDistance)
+            //{
+            //    animator.SetBool(TransitionParameters.Walk.ToString(), false);
+            //}
+
+            //Debug.Log(dist + " of " + player.name + " and " + player.getRayCastHitPoint);
         }
     }
 }

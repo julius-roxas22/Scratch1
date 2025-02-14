@@ -18,6 +18,7 @@ namespace DumbAssStudio
         private NavMeshAgent agent;
         private PlayerAnimatorProgress playerAnimatorProgress;
         private CharacterAttributes attributes;
+        public List<GameObject> obj = new List<GameObject>();
 
         public List<ObjectType> gameObjectAvoidanceList = new List<ObjectType>();
 
@@ -29,6 +30,9 @@ namespace DumbAssStudio
         public bool isAttacking;
         public bool isStopMoving;
         public bool rightMouseClick;
+
+        private RaycastHit targetHit;
+        public float notWalkablePathDistance;
 
         //public Vector3 targetPosition;
         private Vector3 rayCastHitPoint;
@@ -85,28 +89,12 @@ namespace DumbAssStudio
             }
         }
 
-        public List<GameObject> obj = new List<GameObject>();
-        public float radius;
-        public LayerMask mask;
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawWireSphere(transform.position, radius);
-            Gizmos.color = Color.red;
-        }
-
         private void Update()
         {
 
             mouseMovement();
 
             //playerInteractionObject();
-
-            //to be continued
-            if (Physics.CheckSphere(transform.position, radius, mask))
-            {
-                VirtualInpuManager.getInstance.isMoving = false;
-            }
 
             foreach (GameObject o in obj) // it simply destroy the hit point object
             {
@@ -126,6 +114,7 @@ namespace DumbAssStudio
                     targetPosition.y = transform.position.y;
                     setRayCastHitPoint(targetPosition);
                     VirtualInpuManager.getInstance.isMoving = true;
+                    targetHit = hit;
                     //checkValidToMove(hit.collider);//validate to move the player
                 }
 
@@ -140,12 +129,12 @@ namespace DumbAssStudio
 
             if (isMoving)
             {
-                Vector3 dir = getRayCastHitPoint - transform.position;
-                dir.y = 0;
+                Vector3 lookDir = getRayCastHitPoint - transform.position;
+                lookDir.y = 0;
 
-                if (dir != Vector3.zero)
+                if (lookDir != Vector3.zero)
                 {
-                    Quaternion targetRotation = Quaternion.LookRotation(dir);
+                    Quaternion targetRotation = Quaternion.LookRotation(lookDir);
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
 
@@ -155,15 +144,40 @@ namespace DumbAssStudio
                 {
                     VirtualInpuManager.getInstance.isMoving = false;
                 }
+
+                GameObject obj = targetHit.collider.gameObject;
+
+                GameObjectType type = obj.GetComponent<GameObjectType>();
+
+                if (null == type)
+                {
+                    return;
+                }
+
+                if (type.objectType.Equals(ObjectType.Ground))
+                {
+                    return;
+                }
+
+
+                if (type.objectType.Equals(ObjectType.Pole) || type.objectType.Equals(ObjectType.Tree))
+                {
+                    float notWalkablePathDist = (obj.transform.position - transform.position).sqrMagnitude;
+
+                    if (notWalkablePathDist < notWalkablePathDistance)
+                    {
+                        VirtualInpuManager.getInstance.isMoving = false;
+                    }
+                }
             }
         }
 
         public void playerMove(float movementSpeed)
         {
-            if (isStopMoving)
-            {
-                VirtualInpuManager.getInstance.isMoving = false;
-            }
+            //if (isStopMoving)
+            //{
+            //    VirtualInpuManager.getInstance.isMoving = false;
+            //}
 
             getNavMeshAgent.SetDestination(getRayCastHitPoint);
 
@@ -207,6 +221,7 @@ namespace DumbAssStudio
         //        lookRotation(enemy, Vector3.up);
         //    }
         //}
+
         private void checkValidToMove(Collider col)
         {
             //GameObject notWalkablePath = col.gameObject;
@@ -225,9 +240,11 @@ namespace DumbAssStudio
             //    return;
             //}
 
+            //float distanceObject = (getRayCastHitPoint - transform.position).sqrMagnitude;
+
             //if (type.Equals(ObjectType.Pole) || type.Equals(ObjectType.Tree))
             //{
-            //    if (dist < notWalkablePathDistance)
+            //    if (dist < notWalkablePathDistance && distanceObject < objectDistanceToStop)
             //    {
             //        Debug.Log("Not walkable path");
             //        VirtualInpuManager.getInstance.isMoving = false;

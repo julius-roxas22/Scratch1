@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1550f0ed202f59340abb866529eb6feb, type: 3}
   m_Name: PlayerIdle
   m_EditorClassIdentifier: 
-  stoppingDistance: 0.09
+  distPointToMove: 0.04
