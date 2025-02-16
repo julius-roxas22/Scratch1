@@ -31,7 +31,7 @@ namespace DumbAssStudio
 
             if (player.isMoving)
             {
-                if (dist < stoppingDistance)
+                if (dist < stoppingDistance && isTheSamePlayer(player))
                 {
                     VirtualInpuManager.getInstance.isMoving = false;
                 }
@@ -43,7 +43,20 @@ namespace DumbAssStudio
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
                 player.getNavMeshAgent.isStopped = true;
             }
+        }
 
+        bool isTheSamePlayer(PlayerController playerController)
+        {
+
+            foreach (PlayerController p in GameManager.getInstance.playerList)
+            {
+                if (!p.Equals(playerController))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

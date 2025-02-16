@@ -10,7 +10,6 @@ namespace DumbAssStudio
     {
         public List<Obstacle> gameObjectObstacleList = new List<Obstacle>();
         public List<PlayerController> playerList = new List<PlayerController>();
-        public GameObject PlayerInteractionObject = null;
 
         private void Awake()
         {
@@ -23,7 +22,10 @@ namespace DumbAssStudio
             PlayerController[] players = GameManager.FindObjectsOfType<PlayerController>();
             foreach (PlayerController p in players)
             {
-                playerList.Add(p);
+                if (!playerList.Contains(p))
+                {
+                    playerList.Add(p);
+                }
             }
         }
 

@@ -146,9 +146,18 @@ namespace DumbAssStudio
                     return;
                 }
 
-                if (type.objectType.Equals(ObjectType.Ground))
+                switch (type.objectType)
                 {
-                    return;
+                    case ObjectType.Enemy:
+                        {
+                            float dist = (obj.transform.position - transform.position).sqrMagnitude;
+                            Debug.Log(dist + "between " + name + " and " + obj.name);
+                            break;
+                        }
+                    case ObjectType.Ground:
+                        {
+                            return;
+                        }
                 }
 
                 foreach (ObjectType oType in gameObjectAvoidanceList)
