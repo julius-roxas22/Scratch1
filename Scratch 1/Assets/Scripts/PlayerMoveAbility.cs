@@ -27,26 +27,23 @@ namespace DumbAssStudio
 
         private void controlledMoved(PlayerController player, Animator animator)
         {
+            float dist = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude;
+
             if (player.isMoving)
             {
+                if (dist < stoppingDistance)
+                {
+                    VirtualInpuManager.getInstance.isMoving = false;
+                }
                 player.playerMove(movementSpeed);
-                //player.getNavMeshAgent.isStopped = false;
             }
 
             if (!player.isMoving)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
-                //player.getNavMeshAgent.isStopped = true;
+                player.getNavMeshAgent.isStopped = true;
             }
 
-            float dist = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude;
-
-            //if (dist < stoppingDistance)
-            //{
-            //    animator.SetBool(TransitionParameters.Walk.ToString(), false);
-            //}
-
-            //Debug.Log(dist + " of " + player.name + " and " + player.getRayCastHitPoint);
         }
     }
 }

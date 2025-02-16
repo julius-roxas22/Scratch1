@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlayerMove
   m_EditorClassIdentifier: 
   movementSpeed: 4
-  stoppingDistance: 2
+  stoppingDistance: 0.44

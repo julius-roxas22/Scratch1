@@ -17,7 +17,7 @@ namespace DumbAssStudio
     {
         private NavMeshAgent agent;
         private PlayerAnimatorProgress playerAnimatorProgress;
-        private CharacterAttributes attributes;
+        private Defense attributes;
         public List<GameObject> obj = new List<GameObject>();
 
         public List<ObjectType> gameObjectAvoidanceList = new List<ObjectType>();
@@ -34,7 +34,6 @@ namespace DumbAssStudio
         private RaycastHit targetHit;
         public float notWalkablePathDistance;
 
-        //public Vector3 targetPosition;
         private Vector3 rayCastHitPoint;
         public bool isMoving;
         public float objectDistanceToStop;
@@ -53,13 +52,13 @@ namespace DumbAssStudio
             }
         }
 
-        public CharacterAttributes getAttributes
+        public Defense getAttributes
         {
             get
             {
                 if (null == attributes)
                 {
-                    attributes = GetComponent<CharacterAttributes>();
+                    attributes = GetComponent<Defense>();
                 }
                 return attributes;
             }
@@ -138,13 +137,6 @@ namespace DumbAssStudio
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
 
-                float dist = (getRayCastHitPoint - transform.position).sqrMagnitude;
-
-                if (dist < objectDistanceToStop)
-                {
-                    VirtualInpuManager.getInstance.isMoving = false;
-                }
-
                 GameObject obj = targetHit.collider.gameObject;
 
                 GameObjectType type = obj.GetComponent<GameObjectType>();
@@ -159,14 +151,16 @@ namespace DumbAssStudio
                     return;
                 }
 
-
-                if (type.objectType.Equals(ObjectType.Pole) || type.objectType.Equals(ObjectType.Tree))
+                foreach (ObjectType oType in gameObjectAvoidanceList)
                 {
-                    float notWalkablePathDist = (obj.transform.position - transform.position).sqrMagnitude;
-
-                    if (notWalkablePathDist < notWalkablePathDistance)
+                    if (type.objectType.Equals(oType))
                     {
-                        VirtualInpuManager.getInstance.isMoving = false;
+                        float notWalkablePathDist = (obj.transform.position - transform.position).sqrMagnitude;
+
+                        if (notWalkablePathDist < notWalkablePathDistance)
+                        {
+                            VirtualInpuManager.getInstance.isMoving = false;
+                        }
                     }
                 }
             }
@@ -179,8 +173,11 @@ namespace DumbAssStudio
             //    VirtualInpuManager.getInstance.isMoving = false;
             //}
 
-            getNavMeshAgent.SetDestination(getRayCastHitPoint);
-
+            if (isMoving)
+            {
+                getNavMeshAgent.speed = movementSpeed;
+                getNavMeshAgent.SetDestination(getRayCastHitPoint);
+            }
             //transform.position = Vector3.MoveTowards(transform.position, getRayCastHitPoint, movementSpeed * Time.deltaTime);
         }
 

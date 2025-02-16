@@ -29,7 +29,7 @@ namespace DumbAssStudio
             if (player.isMoving && dist > distPointToMove)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), true);
-                //player.getNavMeshAgent.isStopped = false;
+                player.getNavMeshAgent.isStopped = false;
             }
         }
     }

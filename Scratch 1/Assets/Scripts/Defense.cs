@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
-    public class CharacterAttributes : MonoBehaviour
+    public class Defense : MonoBehaviour
     {
         public float attackRange;
     }
