@@ -124,6 +124,7 @@ namespace DumbAssStudio
                     setRayCastHitPoint(targetPosition);
                     VirtualInpuManager.getInstance.isMoving = true;
                     targetHit = hit;
+                    OnRightMousePress(targetHit.collider.gameObject);
                 }
 
                 #region instantiate hit point object
@@ -144,7 +145,6 @@ namespace DumbAssStudio
             if (isMoving)
             {
                 lookRotation();
-                OnRightMousePress(targetHit.collider.gameObject);
             }
         }
 
@@ -162,6 +162,11 @@ namespace DumbAssStudio
 
         private void OnRightMousePress(GameObject obj)
         {
+            if (null == obj)
+            {
+                return;
+            }
+
             GameObjectType type = obj.GetComponent<GameObjectType>();
 
             if (null == type)
@@ -179,6 +184,7 @@ namespace DumbAssStudio
                 case ObjectType.Ground:
                     {
                         interactionObject = null;
+                        VirtualInpuManager.getInstance.isAttacking = false;
                         return;
                     }
             }

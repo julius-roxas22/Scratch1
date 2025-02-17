@@ -50,42 +50,16 @@ namespace DumbAssStudio
                 }
             }
 
+            //void lookAtEnemy(GameObject attacker, GameObject aiming)
+            //{
+            //    Vector3 lookAtTarget = aiming.transform.position - attacker.transform.position;
+            //    attacker.transform.rotation = Quaternion.LookRotation(lookAtTarget);
+            //}
+
             if (!player.isMoving)
             {
-                GameObject obj = player.interactionObject;
-
-                if (null == obj)
-                {
-                    animator.SetBool(TransitionParameters.Walk.ToString(), false);
-                    player.getNavMeshAgent.isStopped = true;
-                }
-                else if (null != obj)
-                {
-                    GameObjectType oType = obj.GetComponent<GameObjectType>();
-                    if (oType.objectType == ObjectType.Enemy)
-                    {
-                        animator.SetBool(TransitionParameters.Walk.ToString(), false);
-                        player.getNavMeshAgent.isStopped = true;
-                    }
-                    else if (oType.objectType == ObjectType.Ground)
-                    {
-                        VirtualInpuManager.getInstance.isMoving = true;
-                    }
-                }
-
-                //if (null == obj)
-                //{
-                //    animator.SetBool(TransitionParameters.Walk.ToString(), false);
-                //    player.getNavMeshAgent.isStopped = true;
-                //}
-                //else
-                //{
-                //    GameObjectType oType = obj.GetComponent<GameObjectType>();
-                //    if (oType.objectType == ObjectType.Enemy && player.isAttacking && player.isRightMouseClick)
-                //    {
-                //        VirtualInpuManager.getInstance.isMoving = true;
-                //    }
-                //}
+                animator.SetBool(TransitionParameters.Walk.ToString(), false);
+                player.getNavMeshAgent.isStopped = true;
             }
         }
     }

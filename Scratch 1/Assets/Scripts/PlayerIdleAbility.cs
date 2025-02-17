@@ -33,6 +33,11 @@ namespace DumbAssStudio
                 animator.SetBool(TransitionParameters.Walk.ToString(), true);
                 player.getNavMeshAgent.isStopped = false;
             }
+
+            if (player.isAttacking)
+            {
+                animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
+            }
         }
     }
 }
