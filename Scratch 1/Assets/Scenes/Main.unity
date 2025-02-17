@@ -1396,6 +1396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avoidObjectList: 0300000004000000
   objHitPoints: []
+  interactionObject: {fileID: 0}
   isWalking: 0
   isAttacking: 0
   isStopMoving: 0
@@ -2867,12 +2868,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avoidObjectList: 0300000004000000
   objHitPoints: []
+  interactionObject: {fileID: 0}
   isWalking: 0
   isAttacking: 0
   isStopMoving: 0
   OnRightMouseButtonDown: 0
-  stoppingDist: 0.1
-  smoothTurningLookForward: 0
+  stoppingDist: 0.44
+  smoothTurningLookForward: 0.12
 --- !u!65 &1185089832
 BoxCollider:
   m_ObjectHideFlags: 0

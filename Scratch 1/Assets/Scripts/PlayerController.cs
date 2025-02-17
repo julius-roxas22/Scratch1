@@ -18,8 +18,7 @@ namespace DumbAssStudio
         public List<ObjectType> avoidObjectList = new List<ObjectType>();
         public List<GameObject> objHitPoints = new List<GameObject>();
 
-        private NavMeshAgent agent;
-
+        public GameObject interactionObject;
         public bool isWalking;
         public bool isAttacking;
         public bool isStopMoving;
@@ -28,8 +27,17 @@ namespace DumbAssStudio
         public float stoppingDist;
         public float smoothTurningLookForward;
 
+        private NavMeshAgent agent;
+        private ManualInput manualInput;
+        private Defense defense;
         private Vector3 targetHitPoint;
         private bool isTurningForwardLook;
+
+        private void Awake()
+        {
+            defense = GetComponent<Defense>();
+            manualInput = GetComponent<ManualInput>();
+        }
 
         public Vector3 getTargetHitPoint
         {
@@ -76,10 +84,10 @@ namespace DumbAssStudio
                     GameObject objHitP = Instantiate(Resources.Load("HitPoint", typeof(GameObject))) as GameObject;
                     objHitP.transform.position = getTargetHitPoint;
                     Destroy(objHitP, 2f);
+
+                    interactionObjectChecker(hit.collider);
                 }
             }
-
-            float stoppingPointDist = (getTargetHitPoint - transform.position).sqrMagnitude;
 
             if (isTurningForwardLook)
             {
@@ -94,10 +102,77 @@ namespace DumbAssStudio
                 }
             }
 
+            float stoppingPointDist = (getTargetHitPoint - transform.position).sqrMagnitude;
+
             if (stoppingPointDist < stoppingDist)
             {
                 VirtualInpuManager.getInstance.isWalking = false;
             }
+
+            onEnemyHit();
+        }
+
+        private void interactionObjectChecker(Collider col)
+        {
+            GameObjectType objType = col.transform.root.GetComponent<GameObjectType>();
+
+            switch (objType.objectType)
+            {
+                case ObjectType.Enemy:
+                    {
+                        interactionObject = objType.gameObject;
+                        break;
+                    }
+                default:
+                    {
+                        interactionObject = null;
+                        break;
+                    }
+            }
+        }
+
+        private void onEnemyHit()
+        {
+            PlayerController playerActive = null;
+
+            if (manualInput.enabled)
+            {
+                playerActive = this;
+            }
+
+            GameObject enemy = null;
+
+            if (null != interactionObject)
+            {
+                enemy = interactionObject;
+                instantLookAround();
+            }
+
+            if (null == enemy)
+            {
+                return;
+            }
+
+            float dist = (enemy.transform.position - playerActive.transform.position).sqrMagnitude;
+
+            if (dist < defense.attackRange)
+            {
+                VirtualInpuManager.getInstance.isAttacking = true;
+            }
+            else
+            {
+
+                VirtualInpuManager.getInstance.isAttacking = false;
+                VirtualInpuManager.getInstance.isWalking = true;
+                getTargetHitPoint = enemy.transform.position;
+            }
+        }
+
+        private void instantLookAround()
+        {
+            Vector3 lookAt = interactionObject.transform.position - transform.position;
+            lookAt.y = 0f;
+            transform.rotation = Quaternion.LookRotation(lookAt);
         }
 
         public void moveTowardsTo(Vector3 destination)

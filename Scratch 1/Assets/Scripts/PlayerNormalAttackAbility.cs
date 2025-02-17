@@ -20,7 +20,7 @@ namespace DumbAssStudio
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-
+            //VirtualInpuManager.getInstance.isAttacking = false;
         }
     }
 }
