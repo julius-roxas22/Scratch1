@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3009b80591e16b8419e5b2ffe33dd8d4, type: 3}
   m_Name: PlayerNormalAttack
   m_EditorClassIdentifier: 
-  endTimeAttack: 1
+  startTimeAttack: 0.35
+  endTimeAttack: 0.7
