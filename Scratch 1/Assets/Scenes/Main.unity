@@ -1288,6 +1288,7 @@ GameObject:
   - component: {fileID: 682490981}
   - component: {fileID: 682490980}
   - component: {fileID: 682490983}
+  - component: {fileID: 682490984}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1399,10 +1400,11 @@ MonoBehaviour:
   interactionObject: {fileID: 0}
   isWalking: 0
   isAttacking: 0
-  isStopMoving: 0
+  onPressStop: 0
   OnRightMouseButtonDown: 0
   stoppingDist: 0.44
   smoothTurningLookForward: 12
+  forwardLook: 0
 --- !u!114 &682490980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,6 +1430,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 2
+  maxHealth: 10
+  currentHealth: 0
 --- !u!195 &682490982
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1463,6 +1467,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 2
+--- !u!114 &682490984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682490971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db392ffaa31c8574ba3e426d31256b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &689323727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2809,6 +2825,7 @@ GameObject:
   - component: {fileID: 1185089830}
   - component: {fileID: 1185089829}
   - component: {fileID: 1185089828}
+  - component: {fileID: 1185089837}
   m_Layer: 6
   m_Name: Player (1)
   m_TagString: Untagged
@@ -2854,6 +2871,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 2
+  maxHealth: 10
+  currentHealth: 0
 --- !u!114 &1185089831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2871,10 +2890,11 @@ MonoBehaviour:
   interactionObject: {fileID: 0}
   isWalking: 0
   isAttacking: 0
-  isStopMoving: 0
+  onPressStop: 0
   OnRightMouseButtonDown: 0
   stoppingDist: 0.44
   smoothTurningLookForward: 0.12
+  forwardLook: 0
 --- !u!65 &1185089832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2984,6 +3004,18 @@ Transform:
   - {fileID: 103755931}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1185089837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185089827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db392ffaa31c8574ba3e426d31256b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1201230972
 GameObject:
   m_ObjectHideFlags: 0

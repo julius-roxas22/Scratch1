@@ -17,26 +17,48 @@ namespace DumbAssStudio
     {
         public List<ObjectType> avoidObjectList = new List<ObjectType>();
         public List<GameObject> objHitPoints = new List<GameObject>();
-
         public GameObject interactionObject;
+
         public bool isWalking;
         public bool isAttacking;
-        public bool isStopMoving;
+        public bool onPressStop;
         public bool OnRightMouseButtonDown;
-
         public float stoppingDist;
         public float smoothTurningLookForward;
+        public bool forwardLook;
 
         private NavMeshAgent agent;
         private ManualInput manualInput;
+        private DamageDetector damageDetector;
         private Defense defense;
         private Vector3 targetHitPoint;
-        private bool isTurningForwardLook;
 
         private void Awake()
         {
-            defense = GetComponent<Defense>();
             manualInput = GetComponent<ManualInput>();
+        }
+        public Defense getDefense
+        {
+            get
+            {
+                if (null == defense)
+                {
+                    defense = GetComponent<Defense>();
+                }
+                return defense;
+            }
+        }
+
+        public DamageDetector getDamageDetector
+        {
+            get
+            {
+                if (null == damageDetector)
+                {
+                    damageDetector = GetComponent<DamageDetector>();
+                }
+                return damageDetector;
+            }
         }
 
         public Vector3 getTargetHitPoint
@@ -73,7 +95,7 @@ namespace DumbAssStudio
             {
                 if (Physics.Raycast(ray, out hit))
                 {
-                    isTurningForwardLook = true;
+                    forwardLook = true;
 
                     Vector3 hitP = hit.point;
                     hitP.y = 0;
@@ -89,7 +111,7 @@ namespace DumbAssStudio
                 }
             }
 
-            if (isTurningForwardLook)
+            if (forwardLook)
             {
                 Vector3 look = getTargetHitPoint - transform.position;
                 look.y = 0f;
@@ -126,6 +148,7 @@ namespace DumbAssStudio
                 default:
                     {
                         interactionObject = null;
+                        VirtualInpuManager.getInstance.isAttacking = false;
                         break;
                     }
             }
@@ -155,13 +178,12 @@ namespace DumbAssStudio
 
             float dist = (enemy.transform.position - playerActive.transform.position).sqrMagnitude;
 
-            if (dist < defense.attackRange)
+            if (dist < getDefense.attackRange)
             {
                 VirtualInpuManager.getInstance.isAttacking = true;
             }
             else
             {
-
                 VirtualInpuManager.getInstance.isAttacking = false;
                 VirtualInpuManager.getInstance.isWalking = true;
                 getTargetHitPoint = enemy.transform.position;

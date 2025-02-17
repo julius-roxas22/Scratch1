@@ -7,5 +7,12 @@ namespace DumbAssStudio
     public class Defense : MonoBehaviour
     {
         public float attackRange;
+        public int maxHealth;
+        public int currentHealth;
+
+        private void Awake()
+        {
+            currentHealth = maxHealth;
+        }
     }
 }

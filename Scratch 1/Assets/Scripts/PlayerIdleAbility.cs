@@ -30,14 +30,10 @@ namespace DumbAssStudio
                 player.getNavAgent.isStopped = false;
             }
 
-            //if (player.isAttacking)
-            //{
-            //    animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
-            //}
-            //else
-            //{
-            //    animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
-            //}
+            if (player.isAttacking)
+            {
+                animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
+            }
         }
     }
 }
