@@ -27,18 +27,26 @@ namespace DumbAssStudio
         public bool isWalking;
         public bool isAttacking;
         public bool isStopMoving;
-        public bool rightMouseClick;
+        public bool isMoving;
+        public bool isRightMouseClick;
 
         private RaycastHit targetHit;
         public float notWalkablePathDistance;
 
         private Vector3 rayCastHitPoint;
-        public bool isMoving;
         public float rotationSpeed;
 
         public void setRayCastHitPoint(Vector3 point)
         {
             rayCastHitPoint = point;
+        }
+
+        public Vector3 getRayCastHitPoint
+        {
+            get
+            {
+                return rayCastHitPoint;
+            }
         }
 
         private ManualInput getManualInput
@@ -50,14 +58,6 @@ namespace DumbAssStudio
                     manualInput = GetComponent<ManualInput>();
                 }
                 return manualInput;
-            }
-        }
-
-        public Vector3 getRayCastHitPoint
-        {
-            get
-            {
-                return rayCastHitPoint;
             }
         }
 
@@ -109,11 +109,13 @@ namespace DumbAssStudio
             }
         }
 
+        public float tempStopDist;
+
         private void mouseMovement()
         {
             Ray ray = CameraManager.getInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (rightMouseClick)
+            if (isRightMouseClick)
             {
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -133,6 +135,11 @@ namespace DumbAssStudio
                 obj.Add(hitPoint);
                 #endregion
             }
+            float dist = (getRayCastHitPoint - transform.position).sqrMagnitude;
+            if (dist < tempStopDist)
+            {
+                VirtualInpuManager.getInstance.isMoving = false;
+            }
 
             if (isMoving)
             {
@@ -141,7 +148,7 @@ namespace DumbAssStudio
             }
         }
 
-        private void lookRotation()
+        public void lookRotation()
         {
             Vector3 lookDir = getRayCastHitPoint - transform.position;
             lookDir.y = 0;
@@ -155,11 +162,6 @@ namespace DumbAssStudio
 
         private void OnRightMousePress(GameObject obj)
         {
-            if (null == obj)
-            {
-                return;
-            }
-
             GameObjectType type = obj.GetComponent<GameObjectType>();
 
             if (null == type)
@@ -183,11 +185,11 @@ namespace DumbAssStudio
 
             foreach (ObjectType oType in gameObjectAvoidanceList)
             {
-                if (type.objectType.Equals(oType))
+                if (type.objectType == oType)
                 {
-                    float notWalkablePathDist = (obj.transform.position - transform.position).sqrMagnitude;
+                    float notWalkablePath = (obj.transform.position - transform.position).sqrMagnitude;
 
-                    if (notWalkablePathDist < notWalkablePathDistance)
+                    if (notWalkablePath < notWalkablePathDistance)
                     {
                         VirtualInpuManager.getInstance.isMoving = false;
                     }
@@ -230,98 +232,16 @@ namespace DumbAssStudio
 
             float dist = (enemy.transform.position - playerController.transform.position).sqrMagnitude;
 
-            if (dist < getAttributes.attackRange)
+            VirtualInpuManager.getInstance.isAttacking = dist < getAttributes.attackRange ? true : false;
+
+            if (isAttacking)
             {
-                //VirtualInpuManager.getInstance.isMoving = false;
+                VirtualInpuManager.getInstance.isMoving = false;
             }
             else
             {
-                //VirtualInpuManager.getInstance.isMoving = true;
-                //playerMove(getNavMeshAgent.speed, enemy.transform.position);
+                VirtualInpuManager.getInstance.isMoving = true;
             }
-
-            //Debug.Log("The " + name + " and " + enemy.name + " distance is " + dist);
         }
-
-        private void checkValidToMove(Collider col)
-        {
-            //GameObject notWalkablePath = col.gameObject;
-
-            //float dist = (notWalkablePath.transform.position - transform.position).sqrMagnitude;
-
-            //GameObjectType type = notWalkablePath.GetComponent<GameObjectType>();
-
-            //if (type.Equals(null))
-            //{
-            //    return;
-            //}
-
-            //if (type.Equals(ObjectType.Ground))
-            //{
-            //    return;
-            //}
-
-            //float distanceObject = (getRayCastHitPoint - transform.position).sqrMagnitude;
-
-            //if (type.Equals(ObjectType.Pole) || type.Equals(ObjectType.Tree))
-            //{
-            //    if (dist < notWalkablePathDistance && distanceObject < objectDistanceToStop)
-            //    {
-            //        Debug.Log("Not walkable path");
-            //        VirtualInpuManager.getInstance.isMoving = false;
-            //    }
-            //}
-
-            //float dist = (col.gameObject.transform.position - transform.position).sqrMagnitude;
-
-            //if (dist < objectDistanceToStop)
-            //{
-            //    VirtualInpuManager.getInstance.isMoving = false;
-            //}
-
-            //if (hit.collider.gameObject == this.gameObject)
-            //{
-            //    return;
-            //}
-
-            //GameObjectType gameObjectType = hit.collider.transform.root.GetComponent<GameObjectType>();
-
-            //if (null == gameObjectType)
-            //{
-            //    return;
-            //}
-
-            //foreach (ObjectType objectType in gameObjectAvoidanceList)
-            //{
-            //    if (objectType.Equals(gameObjectType.objectType))
-            //    {
-            //        return;
-            //    }
-            //}
-
-            //switch (gameObjectType.objectType)
-            //{
-            //    case ObjectType.Ground:
-            //        {
-            //            if (canlookRotate)
-            //            {
-            //                lookRotation(hit);
-            //            }
-            //            getPlayerAnimatorProgress.isWalking = true;
-            //            interactionObject = null;
-            //            VirtualInpuManager.getInstance.isAttacking = false;
-            //            break;
-            //        }
-            //    case ObjectType.Enemy:
-            //        {
-            //            lookRotation(hit);
-            //            interactionObject = gameObjectType.gameObject;
-            //            break;
-            //        }
-            //}
-
-            //setRayCastHitPoint(hit.point);
-        }
-
     }
 }

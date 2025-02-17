@@ -15,10 +15,7 @@ namespace DumbAssStudio
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            //if (!player.isAttacking)
-            //{
-            //    animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
-            //}
+
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)

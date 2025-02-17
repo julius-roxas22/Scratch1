@@ -35,35 +35,59 @@ namespace DumbAssStudio
                 {
                     VirtualInpuManager.getInstance.isMoving = false;
                 }
-
-                //GameObject obj = player.targetHit.collider.gameObject;
-
-                //GameObjectType type = obj.GetComponent<GameObjectType>();
-
-                //if (type.Equals(ObjectType.Ground))
-                //{
-                player.playerMove(movementSpeed, player.getRayCastHitPoint);
-                //}
+                else if (null == player.interactionObject)
+                {
+                    player.playerMove(movementSpeed, player.getRayCastHitPoint);
+                }
+                else if (null != player.interactionObject)
+                {
+                    GameObject enemy = player.interactionObject;
+                    GameObjectType oType = enemy.GetComponent<GameObjectType>();
+                    if (oType.objectType == ObjectType.Enemy)
+                    {
+                        player.playerMove(movementSpeed, enemy.transform.position);
+                    }
+                }
             }
 
             if (!player.isMoving)
             {
-                animator.SetBool(TransitionParameters.Walk.ToString(), false);
-                player.getNavMeshAgent.isStopped = true;
+                GameObject obj = player.interactionObject;
+
+                if (null == obj)
+                {
+                    animator.SetBool(TransitionParameters.Walk.ToString(), false);
+                    player.getNavMeshAgent.isStopped = true;
+                }
+                else if (null != obj)
+                {
+                    GameObjectType oType = obj.GetComponent<GameObjectType>();
+                    if (oType.objectType == ObjectType.Enemy)
+                    {
+                        animator.SetBool(TransitionParameters.Walk.ToString(), false);
+                        player.getNavMeshAgent.isStopped = true;
+                    }
+                    else if (oType.objectType == ObjectType.Ground)
+                    {
+                        VirtualInpuManager.getInstance.isMoving = true;
+                    }
+                }
+
+                //if (null == obj)
+                //{
+                //    animator.SetBool(TransitionParameters.Walk.ToString(), false);
+                //    player.getNavMeshAgent.isStopped = true;
+                //}
+                //else
+                //{
+                //    GameObjectType oType = obj.GetComponent<GameObjectType>();
+                //    if (oType.objectType == ObjectType.Enemy && player.isAttacking && player.isRightMouseClick)
+                //    {
+                //        VirtualInpuManager.getInstance.isMoving = true;
+                //    }
+                //}
             }
         }
-
-        //bool isTheSamePlayer(PlayerController playerController)
-        //{
-        //    foreach (PlayerController p in GameManager.getInstance.playerList)
-        //    {
-        //        if (!p.Equals(playerController))
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return true;
-        //}
     }
 }
 

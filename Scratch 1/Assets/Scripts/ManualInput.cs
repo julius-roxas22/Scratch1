@@ -17,7 +17,7 @@ namespace DumbAssStudio
             playerController.isWalking = playerController.getPlayerAnimatorProgress.isWalking;
             playerController.isAttacking = VirtualInpuManager.getInstance.isAttacking;
             playerController.isStopMoving = VirtualInpuManager.getInstance.isStopMoving;
-            playerController.rightMouseClick = VirtualInpuManager.getInstance.rightMouseClick;
+            playerController.isRightMouseClick = VirtualInpuManager.getInstance.rightMouseClick;
             playerController.isMoving = VirtualInpuManager.getInstance.isMoving;
         }
     }
