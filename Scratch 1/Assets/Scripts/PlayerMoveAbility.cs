@@ -31,11 +31,19 @@ namespace DumbAssStudio
 
             if (player.isMoving)
             {
-                if (dist < stoppingDistance && isTheSamePlayer(player))
+                if (dist < stoppingDistance)
                 {
                     VirtualInpuManager.getInstance.isMoving = false;
                 }
-                player.playerMove(movementSpeed);
+
+                //GameObject obj = player.targetHit.collider.gameObject;
+
+                //GameObjectType type = obj.GetComponent<GameObjectType>();
+
+                //if (type.Equals(ObjectType.Ground))
+                //{
+                player.playerMove(movementSpeed, player.getRayCastHitPoint);
+                //}
             }
 
             if (!player.isMoving)
@@ -45,19 +53,17 @@ namespace DumbAssStudio
             }
         }
 
-        bool isTheSamePlayer(PlayerController playerController)
-        {
-
-            foreach (PlayerController p in GameManager.getInstance.playerList)
-            {
-                if (!p.Equals(playerController))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
+        //bool isTheSamePlayer(PlayerController playerController)
+        //{
+        //    foreach (PlayerController p in GameManager.getInstance.playerList)
+        //    {
+        //        if (!p.Equals(playerController))
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
     }
 }
 

@@ -1214,15 +1214,12 @@ MonoBehaviour:
   obj: []
   gameObjectAvoidanceList: 0300000004000000
   interactionObject: {fileID: 0}
-  offSetToAttack: {x: 0, y: 0, z: 0}
-  canlookRotate: 0
   isWalking: 0
   isAttacking: 0
   isStopMoving: 0
   rightMouseClick: 0
   notWalkablePathDistance: 15
   isMoving: 0
-  objectDistanceToStop: 0.1
   rotationSpeed: 12
 --- !u!114 &682490978
 MonoBehaviour:
@@ -3462,7 +3459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b600ae34c19438a44a78f4a82c76ba10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 2
+  objectType: 1
 --- !u!114 &1622057514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3483,7 +3480,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622057512}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4b953bc2237ee149a0c5eba313d128e, type: 3}
   m_Name: 
@@ -3516,15 +3513,12 @@ MonoBehaviour:
   obj: []
   gameObjectAvoidanceList: 0300000004000000
   interactionObject: {fileID: 0}
-  offSetToAttack: {x: 0, y: 0, z: 0}
-  canlookRotate: 0
   isWalking: 0
   isAttacking: 0
   isStopMoving: 0
   rightMouseClick: 0
   notWalkablePathDistance: 15
   isMoving: 0
-  objectDistanceToStop: 0.1
   rotationSpeed: 12
 --- !u!65 &1622057518
 BoxCollider:
@@ -3628,7 +3622,7 @@ Transform:
   m_GameObject: {fileID: 1622057512}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.828}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4981,15 +4975,12 @@ MonoBehaviour:
   obj: []
   gameObjectAvoidanceList: 0300000004000000
   interactionObject: {fileID: 0}
-  offSetToAttack: {x: 0, y: 0, z: 0}
-  canlookRotate: 0
   isWalking: 0
   isAttacking: 0
   isStopMoving: 0
   rightMouseClick: 0
   notWalkablePathDistance: 0
   isMoving: 0
-  objectDistanceToStop: 0
   rotationSpeed: 0
 --- !u!114 &1687269959248859198
 MonoBehaviour:

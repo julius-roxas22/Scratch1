@@ -18,13 +18,11 @@ namespace DumbAssStudio
         private NavMeshAgent agent;
         private PlayerAnimatorProgress playerAnimatorProgress;
         private Defense attributes;
+        private ManualInput manualInput;
+
         public List<GameObject> obj = new List<GameObject>();
-
         public List<ObjectType> gameObjectAvoidanceList = new List<ObjectType>();
-
-        public GameObject interactionObject = null;
-        public Vector3 offSetToAttack;
-        public bool canlookRotate;
+        public GameObject interactionObject;
 
         public bool isWalking;
         public bool isAttacking;
@@ -36,12 +34,23 @@ namespace DumbAssStudio
 
         private Vector3 rayCastHitPoint;
         public bool isMoving;
-        public float objectDistanceToStop;
         public float rotationSpeed;
 
         public void setRayCastHitPoint(Vector3 point)
         {
             rayCastHitPoint = point;
+        }
+
+        private ManualInput getManualInput
+        {
+            get
+            {
+                if (null == manualInput)
+                {
+                    manualInput = GetComponent<ManualInput>();
+                }
+                return manualInput;
+            }
         }
 
         public Vector3 getRayCastHitPoint
@@ -90,10 +99,9 @@ namespace DumbAssStudio
 
         private void Update()
         {
-
             mouseMovement();
 
-            //playerInteractionObject();
+            playerInteractionObject();
 
             foreach (GameObject o in obj) // it simply destroy the hit point object
             {
@@ -114,12 +122,12 @@ namespace DumbAssStudio
                     setRayCastHitPoint(targetPosition);
                     VirtualInpuManager.getInstance.isMoving = true;
                     targetHit = hit;
-                    //checkValidToMove(hit.collider);//validate to move the player
                 }
 
                 #region instantiate hit point object
                 GameObject hitPoint = Instantiate(Resources.Load("HitPoint", typeof(GameObject))) as GameObject;
 
+                hitPoint.name = gameObject.name + " hit point move path";
                 hitPoint.transform.position = getRayCastHitPoint;
 
                 obj.Add(hitPoint);
@@ -128,105 +136,112 @@ namespace DumbAssStudio
 
             if (isMoving)
             {
-                Vector3 lookDir = getRayCastHitPoint - transform.position;
-                lookDir.y = 0;
+                lookRotation();
+                OnRightMousePress(targetHit.collider.gameObject);
+            }
+        }
 
-                if (lookDir != Vector3.zero)
-                {
-                    Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-                }
+        private void lookRotation()
+        {
+            Vector3 lookDir = getRayCastHitPoint - transform.position;
+            lookDir.y = 0;
 
-                GameObject obj = targetHit.collider.gameObject;
+            if (lookDir != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
+        }
 
-                GameObjectType type = obj.GetComponent<GameObjectType>();
+        private void OnRightMousePress(GameObject obj)
+        {
+            if (null == obj)
+            {
+                return;
+            }
 
-                if (null == type)
-                {
-                    return;
-                }
+            GameObjectType type = obj.GetComponent<GameObjectType>();
 
-                switch (type.objectType)
-                {
-                    case ObjectType.Enemy:
-                        {
-                            float dist = (obj.transform.position - transform.position).sqrMagnitude;
-                            Debug.Log(dist + "between " + name + " and " + obj.name);
-                            break;
-                        }
-                    case ObjectType.Ground:
-                        {
-                            return;
-                        }
-                }
+            if (null == type)
+            {
+                return;
+            }
 
-                foreach (ObjectType oType in gameObjectAvoidanceList)
-                {
-                    if (type.objectType.Equals(oType))
+            switch (type.objectType)
+            {
+                case ObjectType.Enemy:
                     {
-                        float notWalkablePathDist = (obj.transform.position - transform.position).sqrMagnitude;
+                        interactionObject = obj;
+                        break;
+                    }
+                case ObjectType.Ground:
+                    {
+                        interactionObject = null;
+                        return;
+                    }
+            }
 
-                        if (notWalkablePathDist < notWalkablePathDistance)
-                        {
-                            VirtualInpuManager.getInstance.isMoving = false;
-                        }
+            foreach (ObjectType oType in gameObjectAvoidanceList)
+            {
+                if (type.objectType.Equals(oType))
+                {
+                    float notWalkablePathDist = (obj.transform.position - transform.position).sqrMagnitude;
+
+                    if (notWalkablePathDist < notWalkablePathDistance)
+                    {
+                        VirtualInpuManager.getInstance.isMoving = false;
                     }
                 }
             }
         }
 
-        public void playerMove(float movementSpeed)
+        public void playerMove(float movementSpeed, Vector3 target)
         {
-            //if (isStopMoving)
-            //{
-            //    VirtualInpuManager.getInstance.isMoving = false;
-            //}
-
-            if (isMoving)
-            {
-                getNavMeshAgent.speed = movementSpeed;
-                getNavMeshAgent.SetDestination(getRayCastHitPoint);
-            }
-            //transform.position = Vector3.MoveTowards(transform.position, getRayCastHitPoint, movementSpeed * Time.deltaTime);
+            getNavMeshAgent.speed = movementSpeed;
+            getNavMeshAgent.SetDestination(target);
         }
 
-        //private void playerInteractionObject()
-        //{
-        //    PlayerController playerController = null;
-        //    if (enabled)
-        //    {
-        //        playerController = this;
-        //    }
+        private void playerInteractionObject()
+        {
+            ManualInput activeManualInput = null;
+            if (getManualInput.enabled)
+            {
+                activeManualInput = getManualInput;
+            }
 
-        //    GameObject enemy = null;
+            PlayerController playerController = null;
 
-        //    if (null != interactionObject)
-        //    {
-        //        enemy = interactionObject;
-        //    }
+            if (null != activeManualInput)
+            {
+                playerController = this;
+            }
 
-        //    if (null == interactionObject)
-        //    {
-        //        return;
-        //    }
+            GameObject enemy = null;
 
-        //    float dist = (enemy.transform.position - playerController.transform.position).sqrMagnitude;
+            if (null != interactionObject)
+            {
+                enemy = interactionObject;
+            }
 
-        //    if (dist < getAttributes.attackRange)
-        //    {
-        //        getNavMeshAgent.isStopped = true;
-        //        VirtualInpuManager.getInstance.isAttacking = true;
-        //        getPlayerAnimatorProgress.isWalking = false;
-        //        lookRotation(enemy, Vector3.up);
-        //    }
-        //    else
-        //    {
-        //        getNavMeshAgent.isStopped = false;
-        //        VirtualInpuManager.getInstance.isAttacking = false;
-        //        getPlayerAnimatorProgress.isWalking = true;
-        //        lookRotation(enemy, Vector3.up);
-        //    }
-        //}
+            if (null == interactionObject)
+            {
+                return;
+            }
+
+            float dist = (enemy.transform.position - playerController.transform.position).sqrMagnitude;
+
+            if (dist < getAttributes.attackRange)
+            {
+                //VirtualInpuManager.getInstance.isMoving = false;
+            }
+            else
+            {
+                //VirtualInpuManager.getInstance.isMoving = true;
+                //playerMove(getNavMeshAgent.speed, enemy.transform.position);
+            }
+
+            //Debug.Log("The " + name + " and " + enemy.name + " distance is " + dist);
+        }
 
         private void checkValidToMove(Collider col)
         {

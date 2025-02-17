@@ -35,7 +35,10 @@ namespace DumbAssStudio
 
             foreach (Obstacle o in obstacles)
             {
-                gameObjectObstacleList.Add(o);
+                if (!gameObjectObstacleList.Contains(o))
+                {
+                    gameObjectObstacleList.Add(o);
+                }
             }
         }
     }
