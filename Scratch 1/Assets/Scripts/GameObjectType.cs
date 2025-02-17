@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
-
     public enum ObjectType
     {
-        Ground,
+        None,
         Enemy,
         Allies,
+        Pole,
         Tree,
-        Pole
+        Ground
     }
 
     public class GameObjectType : MonoBehaviour

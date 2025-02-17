@@ -7,8 +7,6 @@ namespace DumbAssStudio
     [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerMove")]
     public class PlayerMoveAbility : AbilityStateBase
     {
-        public float movementSpeed;
-        public float stoppingDistance;
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
@@ -27,39 +25,15 @@ namespace DumbAssStudio
 
         private void controlledMoved(PlayerController player, Animator animator)
         {
-            float dist = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude;
-
-            if (player.isMoving)
+            if (player.isWalking)
             {
-                if (dist < stoppingDistance)
-                {
-                    VirtualInpuManager.getInstance.isMoving = false;
-                }
-                else if (null == player.interactionObject)
-                {
-                    player.playerMove(movementSpeed, player.getRayCastHitPoint);
-                }
-                else if (null != player.interactionObject)
-                {
-                    GameObject enemy = player.interactionObject;
-                    GameObjectType oType = enemy.GetComponent<GameObjectType>();
-                    if (oType.objectType == ObjectType.Enemy)
-                    {
-                        player.playerMove(movementSpeed, enemy.transform.position);
-                    }
-                }
+                player.moveTowardsTo(player.getTargetHitPoint);
             }
 
-            //void lookAtEnemy(GameObject attacker, GameObject aiming)
-            //{
-            //    Vector3 lookAtTarget = aiming.transform.position - attacker.transform.position;
-            //    attacker.transform.rotation = Quaternion.LookRotation(lookAtTarget);
-            //}
-
-            if (!player.isMoving)
+            if (!player.isWalking)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
-                player.getNavMeshAgent.isStopped = true;
+                player.getNavAgent.isStopped = true;
             }
         }
     }

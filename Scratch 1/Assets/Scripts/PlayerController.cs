@@ -15,77 +15,36 @@ namespace DumbAssStudio
 
     public class PlayerController : MonoBehaviour
     {
-        private NavMeshAgent agent;
-        private PlayerAnimatorProgress playerAnimatorProgress;
-        private Defense attributes;
-        private ManualInput manualInput;
+        public List<ObjectType> avoidObjectList = new List<ObjectType>();
+        public List<GameObject> objHitPoints = new List<GameObject>();
 
-        public List<GameObject> obj = new List<GameObject>();
-        public List<ObjectType> gameObjectAvoidanceList = new List<ObjectType>();
-        public GameObject interactionObject;
+        private NavMeshAgent agent;
 
         public bool isWalking;
         public bool isAttacking;
         public bool isStopMoving;
-        public bool isMoving;
-        public bool isRightMouseClick;
+        public bool OnRightMouseButtonDown;
 
-        private RaycastHit targetHit;
-        public float notWalkablePathDistance;
+        public float stoppingDist;
+        public float smoothTurningLookForward;
 
-        private Vector3 rayCastHitPoint;
-        public float rotationSpeed;
+        private Vector3 targetHitPoint;
+        private bool isTurningForwardLook;
 
-        public void setRayCastHitPoint(Vector3 point)
-        {
-            rayCastHitPoint = point;
-        }
-
-        public Vector3 getRayCastHitPoint
+        public Vector3 getTargetHitPoint
         {
             get
             {
-                return rayCastHitPoint;
+                return targetHitPoint;
             }
-        }
 
-        private ManualInput getManualInput
-        {
-            get
+            set
             {
-                if (null == manualInput)
-                {
-                    manualInput = GetComponent<ManualInput>();
-                }
-                return manualInput;
+                targetHitPoint = value;
             }
         }
 
-        public Defense getAttributes
-        {
-            get
-            {
-                if (null == attributes)
-                {
-                    attributes = GetComponent<Defense>();
-                }
-                return attributes;
-            }
-        }
-
-        public PlayerAnimatorProgress getPlayerAnimatorProgress
-        {
-            get
-            {
-                if (null == playerAnimatorProgress)
-                {
-                    playerAnimatorProgress = GetComponent<PlayerAnimatorProgress>();
-                }
-                return playerAnimatorProgress;
-            }
-        }
-
-        public NavMeshAgent getNavMeshAgent
+        public NavMeshAgent getNavAgent
         {
             get
             {
@@ -99,155 +58,51 @@ namespace DumbAssStudio
 
         private void Update()
         {
-            mouseMovement();
-
-            playerInteractionObject();
-
-            foreach (GameObject o in obj) // it simply destroy the hit point object
-            {
-                Destroy(o, 3f);
-            }
-        }
-
-        public float tempStopDist;
-
-        private void mouseMovement()
-        {
             Ray ray = CameraManager.getInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (isRightMouseClick)
+
+            if (OnRightMouseButtonDown)
             {
                 if (Physics.Raycast(ray, out hit))
                 {
-                    Vector3 targetPosition = hit.point;
-                    targetPosition.y = transform.position.y;
-                    setRayCastHitPoint(targetPosition);
-                    VirtualInpuManager.getInstance.isMoving = true;
-                    targetHit = hit;
-                    OnRightMousePress(targetHit.collider.gameObject);
+                    isTurningForwardLook = true;
+
+                    Vector3 hitP = hit.point;
+                    hitP.y = 0;
+                    getTargetHitPoint = hitP;
+
+                    VirtualInpuManager.getInstance.isWalking = true;
+
+                    GameObject objHitP = Instantiate(Resources.Load("HitPoint", typeof(GameObject))) as GameObject;
+                    objHitP.transform.position = getTargetHitPoint;
+                    Destroy(objHitP, 2f);
                 }
-
-                #region instantiate hit point object
-                GameObject hitPoint = Instantiate(Resources.Load("HitPoint", typeof(GameObject))) as GameObject;
-
-                hitPoint.name = gameObject.name + " hit point move path";
-                hitPoint.transform.position = getRayCastHitPoint;
-
-                obj.Add(hitPoint);
-                #endregion
-            }
-            float dist = (getRayCastHitPoint - transform.position).sqrMagnitude;
-            if (dist < tempStopDist)
-            {
-                VirtualInpuManager.getInstance.isMoving = false;
             }
 
-            if (isMoving)
+            float stoppingPointDist = (getTargetHitPoint - transform.position).sqrMagnitude;
+
+            if (isTurningForwardLook)
             {
-                lookRotation();
-            }
-        }
+                Vector3 look = getTargetHitPoint - transform.position;
+                look.y = 0f;
 
-        public void lookRotation()
-        {
-            Vector3 lookDir = getRayCastHitPoint - transform.position;
-            lookDir.y = 0;
-
-            if (lookDir != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            }
-        }
-
-        private void OnRightMousePress(GameObject obj)
-        {
-            if (null == obj)
-            {
-                return;
-            }
-
-            GameObjectType type = obj.GetComponent<GameObjectType>();
-
-            if (null == type)
-            {
-                return;
-            }
-
-            switch (type.objectType)
-            {
-                case ObjectType.Enemy:
-                    {
-                        interactionObject = obj;
-                        break;
-                    }
-                case ObjectType.Ground:
-                    {
-                        interactionObject = null;
-                        VirtualInpuManager.getInstance.isAttacking = false;
-                        return;
-                    }
-            }
-
-            foreach (ObjectType oType in gameObjectAvoidanceList)
-            {
-                if (type.objectType == oType)
+                if (look != Vector3.zero)
                 {
-                    float notWalkablePath = (obj.transform.position - transform.position).sqrMagnitude;
-
-                    if (notWalkablePath < notWalkablePathDistance)
-                    {
-                        VirtualInpuManager.getInstance.isMoving = false;
-                    }
+                    Quaternion targetRotate = Quaternion.LookRotation(look);
+                    Quaternion smoothRotate = Quaternion.Slerp(transform.rotation, targetRotate, smoothTurningLookForward * Time.deltaTime);
+                    transform.rotation = smoothRotate;
                 }
             }
+
+            if (stoppingPointDist < stoppingDist)
+            {
+                VirtualInpuManager.getInstance.isWalking = false;
+            }
         }
 
-        public void playerMove(float movementSpeed, Vector3 target)
+        public void moveTowardsTo(Vector3 destination)
         {
-            getNavMeshAgent.speed = movementSpeed;
-            getNavMeshAgent.SetDestination(target);
-        }
-
-        private void playerInteractionObject()
-        {
-            ManualInput activeManualInput = null;
-            if (getManualInput.enabled)
-            {
-                activeManualInput = getManualInput;
-            }
-
-            PlayerController playerController = null;
-
-            if (null != activeManualInput)
-            {
-                playerController = this;
-            }
-
-            GameObject enemy = null;
-
-            if (null != interactionObject)
-            {
-                enemy = interactionObject;
-            }
-
-            if (null == interactionObject)
-            {
-                return;
-            }
-
-            float dist = (enemy.transform.position - playerController.transform.position).sqrMagnitude;
-
-            VirtualInpuManager.getInstance.isAttacking = dist < getAttributes.attackRange ? true : false;
-
-            if (isAttacking)
-            {
-                VirtualInpuManager.getInstance.isMoving = false;
-            }
-            else
-            {
-                VirtualInpuManager.getInstance.isMoving = true;
-            }
+            getNavAgent.SetDestination(destination);
         }
     }
 }

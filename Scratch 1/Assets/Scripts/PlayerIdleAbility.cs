@@ -7,7 +7,6 @@ namespace DumbAssStudio
     [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerIdle")]
     public class PlayerIdleAbility : AbilityStateBase
     {
-        public float distPointToMove;
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
 
@@ -25,18 +24,10 @@ namespace DumbAssStudio
 
         private void controlledMoved(PlayerController player, Animator animator)
         {
-
-            float dist = (player.getRayCastHitPoint - player.transform.position).sqrMagnitude;
-
-            if (player.isMoving && dist > distPointToMove)
+            if (player.isWalking)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), true);
-                player.getNavMeshAgent.isStopped = false;
-            }
-
-            if (player.isAttacking)
-            {
-                animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
+                player.getNavAgent.isStopped = false;
             }
         }
     }

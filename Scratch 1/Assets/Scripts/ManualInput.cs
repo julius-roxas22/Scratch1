@@ -14,11 +14,10 @@ namespace DumbAssStudio
 
         private void Update()
         {
-            playerController.isWalking = playerController.getPlayerAnimatorProgress.isWalking;
+            playerController.isWalking = VirtualInpuManager.getInstance.isWalking;
             playerController.isAttacking = VirtualInpuManager.getInstance.isAttacking;
             playerController.isStopMoving = VirtualInpuManager.getInstance.isStopMoving;
-            playerController.isRightMouseClick = VirtualInpuManager.getInstance.rightMouseClick;
-            playerController.isMoving = VirtualInpuManager.getInstance.isMoving;
+            playerController.OnRightMouseButtonDown = VirtualInpuManager.getInstance.OnRightMouseButtonDown;
         }
     }
 }
