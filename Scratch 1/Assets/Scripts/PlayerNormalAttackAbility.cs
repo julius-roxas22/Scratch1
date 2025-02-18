@@ -49,6 +49,7 @@ namespace DumbAssStudio
         {
             player.getNavAgent.destination = currentAttackPos;
             player.transform.rotation = currentAttackRotate;
+
             clearAttacks();
         }
 

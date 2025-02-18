@@ -9,8 +9,6 @@ namespace DumbAssStudio
         public PlayerNormalAttackAbility attackAbility;
         public PlayerController attacker;
 
-        //public float startTimeAttack;
-        //public float endTimeAttack;
         public float attackRange;
 
         public bool isRegistered;
@@ -29,8 +27,6 @@ namespace DumbAssStudio
         {
             attackAbility = attack;
             isRegistered = true;
-            //startTimeAttack = attack.startTimeAttack;
-            //endTimeAttack = attack.endTimeAttack;
             attackRange = playerController.getDefense.attackRange;
         }
     }

@@ -18,6 +18,7 @@ namespace DumbAssStudio
         public List<ObjectType> avoidObjectList = new List<ObjectType>();
         public List<GameObject> objHitPoints = new List<GameObject>();
         public GameObject interactionObject;
+        public List<Collider> ragdollParts = new List<Collider>();
 
         public bool isWalking;
         public bool isAttacking;
@@ -27,16 +28,50 @@ namespace DumbAssStudio
         public float smoothTurningLookForward;
         public bool forwardLook;
 
+        private BoxCollider boxCollider;
+        private Animator skinnedMesh;
         private NavMeshAgent agent;
         private ManualInput manualInput;
         private DamageDetector damageDetector;
         private Defense defense;
         private Vector3 targetHitPoint;
 
-        private void Awake()
+        public ManualInput getManualInput
         {
-            manualInput = GetComponent<ManualInput>();
+            get
+            {
+                if (null == manualInput)
+                {
+                    manualInput = GetComponent<ManualInput>();
+                }
+                return manualInput;
+            }
         }
+
+        public BoxCollider getBoxCollider
+        {
+            get
+            {
+                if (null == boxCollider)
+                {
+                    boxCollider = GetComponent<BoxCollider>();
+                }
+                return boxCollider;
+            }
+        }
+
+        public Animator getSkinnedMesh
+        {
+            get
+            {
+                if (null == skinnedMesh)
+                {
+                    skinnedMesh = GetComponentInChildren<Animator>();
+                }
+                return skinnedMesh;
+            }
+        }
+
         public Defense getDefense
         {
             get
@@ -134,6 +169,44 @@ namespace DumbAssStudio
             onEnemyHit();
         }
 
+        public void setUpRagdoll()
+        {
+            ragdollParts.Clear();
+            Collider[] col = GetComponentsInChildren<Collider>();
+
+            foreach (Collider c in col)
+            {
+                if (c.gameObject != gameObject)
+                {
+                    c.isTrigger = true;
+                    ragdollParts.Add(c);
+                    if (null == c.GetComponent<TriggerDetector>())
+                    {
+                        c.gameObject.AddComponent<TriggerDetector>();
+                    }
+                }
+            }
+        }
+
+        //private IEnumerator Start()
+        //{
+        //    yield return new WaitForSeconds(3f);
+        //    turnOnRagdoll();
+        //    GetComponent<BoxCollider>().enabled = false;
+        //    getNavAgent.enabled = false;
+        //    GetComponentInChildren<Animator>().enabled = false;
+        //    GetComponentInChildren<Animator>().avatar = null;
+        //}
+
+        public void turnOnRagdoll()
+        {
+            foreach (Collider c in ragdollParts)
+            {
+                c.isTrigger = false;
+                c.attachedRigidbody.velocity = Vector3.zero;
+            }
+        }
+
         private void interactionObjectChecker(Collider col)
         {
             GameObjectType objType = col.transform.root.GetComponent<GameObjectType>();
@@ -158,7 +231,7 @@ namespace DumbAssStudio
         {
             PlayerController playerActive = null;
 
-            if (manualInput.enabled)
+            if (getManualInput.enabled)
             {
                 playerActive = this;
             }

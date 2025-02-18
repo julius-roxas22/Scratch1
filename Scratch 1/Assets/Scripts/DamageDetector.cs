@@ -45,16 +45,9 @@ namespace DumbAssStudio
                     continue;
                 }
 
-                GameObject obj = info.attacker.interactionObject;
+                float dist = (playerController.transform.position - info.attacker.transform.position).sqrMagnitude;
 
-                if (null == obj)
-                {
-                    continue;
-                }
-
-                GameObjectType objType = obj.GetComponent<GameObjectType>();
-
-                if (objType.objectType == ObjectType.Enemy)
+                if (dist < info.attackRange)
                 {
                     takeDamage(info);
                 }
@@ -68,15 +61,7 @@ namespace DumbAssStudio
 
             if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
             {
-                playerController.getDefense.currentHealth -= 1;
-            }
-
-            if (playerController.getDefense.currentHealth <= 0)
-            {
-                Debug.Log(playerController.name + " is dead");
-                info.attacker.isAttacking = false;
-                info.attacker.interactionObject = null;
-                //Destroy(gameObject);
+                Debug.Log(playerController.name + " hit by " + info.attacker.name);
             }
         }
     }
