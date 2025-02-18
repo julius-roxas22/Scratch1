@@ -22,14 +22,37 @@ namespace DumbAssStudio
             }
         }
 
-        private void OnCollisionEnter(Collision col)
+        private void OnTriggerEnter(Collider col)
         {
+            if (GetPlayerController.ragdollParts.Contains(col))
+            {
+                return;
+            }
 
+            PlayerController attacker = col.transform.root.GetComponent<PlayerController>();
+
+            if (null == attacker)
+            {
+                return;
+            }
+
+            if (col.gameObject == attacker.gameObject)
+            {
+                return;
+            }
+
+            if (!collidingParts.Contains(col))
+            {
+                collidingParts.Add(col);
+            }
         }
 
-        private void OnCollisionExit(Collision col)
+        private void OnTriggerExit(Collider col)
         {
-
+            if (collidingParts.Contains(col))
+            {
+                collidingParts.Remove(col);
+            }
         }
     }
 }

@@ -45,23 +45,35 @@ namespace DumbAssStudio
                     continue;
                 }
 
-                float dist = (playerController.transform.position - info.attacker.transform.position).sqrMagnitude;
-
-                if (dist < info.attackRange)
+                if (info.mustCollide)
                 {
-                    takeDamage(info);
+                    foreach (GameObject obj in info.attacker.objectCollidingParts)
+                    {
+                        foreach (TriggerDetector t in playerController.getAllTriggers())
+                        {
+                            foreach(Collider col in t.collidingParts)
+                            {
+
+                            }
+
+                            if (obj.name.Equals(t.gameObject.name))
+                            {
+                                takeDamage(info, t.name);
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        private void takeDamage(AttackInfo info)
+        private void takeDamage(AttackInfo info, string objName)
         {
             GameObjectType enemyObjType = playerController.GetComponent<GameObjectType>();
             GameObjectType attackerObjType = info.attacker.GetComponent<GameObjectType>();
 
             if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
             {
-                Debug.Log(playerController.name + " hit by " + info.attacker.name);
+                Debug.Log(playerController.name + " hit into " + objName + " part");
             }
         }
     }

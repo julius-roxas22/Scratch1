@@ -11,6 +11,7 @@ namespace DumbAssStudio
 
         public float attackRange;
 
+        public bool mustCollide;
         public bool isRegistered;
         public bool isFinished;
 
@@ -27,6 +28,7 @@ namespace DumbAssStudio
         {
             attackAbility = attack;
             isRegistered = true;
+            mustCollide = attack.mustCollide;
             attackRange = playerController.getDefense.attackRange;
         }
     }

@@ -13,12 +13,20 @@ namespace DumbAssStudio
         ForceTransition,
     }
 
+    public enum AttackType
+    {
+        
+    }
+
     public class PlayerController : MonoBehaviour
     {
         public List<ObjectType> avoidObjectList = new List<ObjectType>();
         public List<GameObject> objHitPoints = new List<GameObject>();
-        public GameObject interactionObject;
         public List<Collider> ragdollParts = new List<Collider>();
+        public List<GameObject> objectCollidingParts = new List<GameObject>();
+        public GameObject interactionObject;
+
+        private List<TriggerDetector> triggerDetectors = new List<TriggerDetector>();
 
         public bool isWalking;
         public bool isAttacking;
@@ -119,6 +127,21 @@ namespace DumbAssStudio
                 }
                 return agent;
             }
+        }
+
+        public List<TriggerDetector> getAllTriggers()
+        {
+            TriggerDetector[] triggers = GetComponentsInChildren<TriggerDetector>();
+
+            foreach (TriggerDetector t in triggers)
+            {
+                if (!triggerDetectors.Contains(t))
+                {
+                    triggerDetectors.Add(t);
+                }
+            }
+
+            return triggerDetectors;
         }
 
         private void Update()

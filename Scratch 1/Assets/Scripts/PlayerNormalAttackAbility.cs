@@ -14,6 +14,8 @@ namespace DumbAssStudio
         public float startTimeAttack;
         public float endTimeAttack;
 
+        public bool mustCollide;
+
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
             currentAttackPos = player.transform.position;
