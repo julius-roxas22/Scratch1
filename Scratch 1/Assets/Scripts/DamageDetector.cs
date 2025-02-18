@@ -8,12 +8,9 @@ namespace DumbAssStudio
     {
         private PlayerController playerController;
 
-        private int currentHealth;
-
         private void Awake()
         {
             playerController = GetComponent<PlayerController>();
-            currentHealth = playerController.getDefense.currentHealth;
         }
 
         private void Update()
@@ -48,7 +45,16 @@ namespace DumbAssStudio
                     continue;
                 }
 
-                if (null != info.attacker.interactionObject)
+                GameObject obj = info.attacker.interactionObject;
+
+                if (null == obj)
+                {
+                    continue;
+                }
+
+                GameObjectType objType = obj.GetComponent<GameObjectType>();
+
+                if (objType.objectType == ObjectType.Enemy)
                 {
                     takeDamage(info);
                 }
@@ -57,22 +63,20 @@ namespace DumbAssStudio
 
         private void takeDamage(AttackInfo info)
         {
-            GameObject enemy = info.attacker.interactionObject.gameObject;
+            GameObjectType enemyObjType = playerController.GetComponent<GameObjectType>();
+            GameObjectType attackerObjType = info.attacker.GetComponent<GameObjectType>();
 
-            GameObjectType objType = enemy.GetComponent<GameObjectType>();
-
-            currentHealth = playerController.getDefense.currentHealth;
-
-            if (objType.objectType == ObjectType.Enemy)
+            if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
             {
-                currentHealth -= Random.Range(1, 5);
-                playerController.getDefense.currentHealth = currentHealth;
+                playerController.getDefense.currentHealth -= 1;
             }
 
-            if (currentHealth <= 0)
+            if (playerController.getDefense.currentHealth <= 0)
             {
                 Debug.Log(playerController.name + " is dead");
                 info.attacker.isAttacking = false;
+                info.attacker.interactionObject = null;
+                //Destroy(gameObject);
             }
         }
     }

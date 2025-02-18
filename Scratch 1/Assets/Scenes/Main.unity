@@ -1429,8 +1429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83741671b570ae74fa7c04c4fdc62413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 2
-  maxHealth: 10
+  attackRange: 4
+  maxHealth: 20
   currentHealth: 0
 --- !u!195 &682490982
 NavMeshAgent:
@@ -2870,8 +2870,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83741671b570ae74fa7c04c4fdc62413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 2
-  maxHealth: 10
+  attackRange: 4
+  maxHealth: 20
   currentHealth: 0
 --- !u!114 &1185089831
 MonoBehaviour:
