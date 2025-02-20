@@ -8,6 +8,8 @@ namespace DumbAssStudio
     {
         private PlayerController playerController;
 
+        [SerializeField] private List<RuntimeAnimatorController> hitReactionList = new List<RuntimeAnimatorController>();
+
         private void Awake()
         {
             playerController = GetComponent<PlayerController>();
@@ -90,7 +92,9 @@ namespace DumbAssStudio
 
             if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
             {
-                Debug.Log(playerController.name + " hit by " + info.attacker.name);
+                int rand = Random.Range(0, hitReactionList.Count);
+                playerController.getSkinnedMesh.runtimeAnimatorController = hitReactionList[rand];
+                //Debug.Log(playerController.name + " hit by " + info.attacker.name + " using " + info.attackAbility.name);
             }
         }
     }

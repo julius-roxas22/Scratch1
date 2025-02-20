@@ -43,6 +43,18 @@ namespace DumbAssStudio
         private Defense defense;
         private Vector3 targetHitPoint;
 
+        private int randomAttack;
+
+        public void setRandomAttack(int randomAttack)
+        {
+            this.randomAttack = randomAttack;
+        }
+
+        public int getRandomAttack()
+        {
+            return randomAttack;
+        }
+
         public GameObjectType getObjectType
         {
             get
@@ -154,35 +166,9 @@ namespace DumbAssStudio
             return triggerDetectors;
         }
 
-        public void randomBasicAttack(Animator animator)
-        {
-            int range = Random.Range(1, 2);
-            if (isAttacking)
-            {
-                if (range == 1)
-                {
-                    animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), true);
-                }
-                else if (range == 2)
-                {
-                    animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), true);
-                }
-            }
-            else 
-            {
-                if (range == 1)
-                {
-                    animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), false);
-                }
-                else if (range == 2)
-                {
-                    animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), false);
-                }
-            }
-        }
-
         private void Update()
         {
+            //Time.timeScale = .2f;
             Ray ray = CameraManager.getInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -204,6 +190,7 @@ namespace DumbAssStudio
 
                     interactionObjectChecker(hit.collider);
                 }
+
             }
 
             if (forwardLook)
@@ -321,6 +308,7 @@ namespace DumbAssStudio
             if (dist < getDefense.attackRange)
             {
                 VirtualInpuManager.getInstance.isAttacking = true;
+                setRandomAttack(Random.Range(1, 3));
             }
             else
             {

@@ -22,6 +22,7 @@ namespace DumbAssStudio
         public float endTimeAttack;
 
         public bool mustCollide;
+        public bool onEnableDebug;
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
@@ -45,12 +46,14 @@ namespace DumbAssStudio
             player.transform.position = currentAttackPos;
             player.transform.rotation = currentAttackRotate;
 
-            //if (!player.isAttacking)
-            //{
-            //    animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
-            //}
-
-            player.randomBasicAttack(animator);
+            if (player.getRandomAttack() == 1)
+            {
+                animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), false);
+            }
+            else if (player.getRandomAttack() == 2)
+            {
+                animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), false);
+            }
 
             registeredAttack(player, stateInfo);
             deRegisteredAttack(stateInfo);
@@ -60,6 +63,11 @@ namespace DumbAssStudio
         {
             player.getNavAgent.destination = currentAttackPos;
             player.transform.rotation = currentAttackRotate;
+
+            if (player.getRandomAttack() != 0)
+            {
+                player.setRandomAttack(0);
+            }
 
             clearAttacks();
         }
@@ -77,6 +85,11 @@ namespace DumbAssStudio
 
                     if (this == info.attackAbility && !info.isRegistered)
                     {
+                        if (onEnableDebug)
+                        {
+                            Debug.Log("Register attack in " + stateInfo.normalizedTime);
+                        }
+
                         info.registeredAttack(playerController, this);
                     }
                 }
@@ -96,6 +109,11 @@ namespace DumbAssStudio
 
                     if (this == info.attackAbility && !info.isFinished)
                     {
+                        if (onEnableDebug)
+                        {
+                            Debug.Log("De-Register attack in " + stateInfo.normalizedTime);
+                        }
+
                         info.isFinished = true;
                         info.GetComponent<PoolObject>().turnOff();
                     }
