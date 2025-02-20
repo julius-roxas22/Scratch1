@@ -3698,7 +3698,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avoidObjectList: 0300000004000000
   objHitPoints: []
-  interactionObject: {fileID: 0}
   ragdollParts:
   - {fileID: 3548374032029975339}
   - {fileID: 8816890777922425773}
@@ -3713,6 +3712,9 @@ MonoBehaviour:
   - {fileID: 8576857326793427251}
   - {fileID: 2765678549429877558}
   - {fileID: 4922884697400225957}
+  rightHandAttack: {fileID: 6307282939975315842}
+  leftHandAttack: {fileID: 817938166347010167}
+  interactionObject: {fileID: 0}
   isWalking: 0
   isAttacking: 0
   onPressStop: 0
@@ -3742,7 +3744,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8537813322592515975}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4b953bc2237ee149a0c5eba313d128e, type: 3}
   m_Name: 
@@ -3759,7 +3761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b600ae34c19438a44a78f4a82c76ba10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 2
+  objectType: 1
 --- !u!114 &1555473135006322317
 MonoBehaviour:
   m_ObjectHideFlags: 0

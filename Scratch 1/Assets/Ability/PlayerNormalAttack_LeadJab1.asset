@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3009b80591e16b8419e5b2ffe33dd8d4, type: 3}
-  m_Name: PlayerNormalAttack
+  m_Name: PlayerNormalAttack_LeadJab1
   m_EditorClassIdentifier: 
-  startTimeAttack: 0.23
-  endTimeAttack: 0.3
+  attackTypes: 0000000001000000
+  startTimeAttack: 0.33
+  endTimeAttack: 0.65
   mustCollide: 1

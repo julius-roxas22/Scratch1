@@ -9,13 +9,9 @@ namespace DumbAssStudio
     {
         Walk,
         SpellAttack1,
-        Normal_Attack,
+        Normal_Attack1,
+        Normal_Attack2,
         ForceTransition,
-    }
-
-    public enum AttackType
-    {
-        
     }
 
     public class PlayerController : MonoBehaviour
@@ -23,7 +19,9 @@ namespace DumbAssStudio
         public List<ObjectType> avoidObjectList = new List<ObjectType>();
         public List<GameObject> objHitPoints = new List<GameObject>();
         public List<Collider> ragdollParts = new List<Collider>();
-        public List<GameObject> objectCollidingParts = new List<GameObject>();
+
+        public GameObject rightHandAttack;
+        public GameObject leftHandAttack;
         public GameObject interactionObject;
 
         private List<TriggerDetector> triggerDetectors = new List<TriggerDetector>();
@@ -36,6 +34,7 @@ namespace DumbAssStudio
         public float smoothTurningLookForward;
         public bool forwardLook;
 
+        private GameObjectType objectType;
         private BoxCollider boxCollider;
         private Animator skinnedMesh;
         private NavMeshAgent agent;
@@ -43,6 +42,18 @@ namespace DumbAssStudio
         private DamageDetector damageDetector;
         private Defense defense;
         private Vector3 targetHitPoint;
+
+        public GameObjectType getObjectType
+        {
+            get
+            {
+                if (null == objectType)
+                {
+                    objectType = GetComponent<GameObjectType>();
+                }
+                return objectType;
+            }
+        }
 
         public ManualInput getManualInput
         {
@@ -140,8 +151,34 @@ namespace DumbAssStudio
                     triggerDetectors.Add(t);
                 }
             }
-
             return triggerDetectors;
+        }
+
+        public void randomBasicAttack(Animator animator)
+        {
+            int range = Random.Range(1, 2);
+            if (isAttacking)
+            {
+                if (range == 1)
+                {
+                    animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), true);
+                }
+                else if (range == 2)
+                {
+                    animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), true);
+                }
+            }
+            else 
+            {
+                if (range == 1)
+                {
+                    animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), false);
+                }
+                else if (range == 2)
+                {
+                    animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), false);
+                }
+            }
         }
 
         private void Update()
@@ -268,6 +305,13 @@ namespace DumbAssStudio
             }
 
             if (null == enemy)
+            {
+                return;
+            }
+
+            GameObjectType eObjType = enemy.GetComponent<GameObjectType>();
+
+            if (eObjType.objectType == getObjectType.objectType)
             {
                 return;
             }

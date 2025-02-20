@@ -8,6 +8,7 @@ namespace DumbAssStudio
     {
         public PlayerNormalAttackAbility attackAbility;
         public PlayerController attacker;
+        public List<AttackType> attackTypes = new List<AttackType>();
 
         public float attackRange;
 
@@ -26,10 +27,11 @@ namespace DumbAssStudio
 
         public void registeredAttack(PlayerController playerController, PlayerNormalAttackAbility attack)
         {
-            attackAbility = attack;
             isRegistered = true;
+            attackAbility = attack;
             mustCollide = attack.mustCollide;
             attackRange = playerController.getDefense.attackRange;
+            attackTypes = attack.attackTypes;
         }
     }
 }

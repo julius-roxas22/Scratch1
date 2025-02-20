@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
+    public enum AttackType
+    {
+        LEFT_HAND,
+        RIGHT_HAND
+    }
+
     [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerNormalAttackAbility")]
     public class PlayerNormalAttackAbility : AbilityStateBase
     {
@@ -11,6 +17,7 @@ namespace DumbAssStudio
         private Quaternion currentAttackRotate;
         private List<AttackInfo> finishedAttacks = new List<AttackInfo>();
 
+        public List<AttackType> attackTypes = new List<AttackType>();
         public float startTimeAttack;
         public float endTimeAttack;
 
@@ -38,10 +45,12 @@ namespace DumbAssStudio
             player.transform.position = currentAttackPos;
             player.transform.rotation = currentAttackRotate;
 
-            if (!player.isAttacking)
-            {
-                animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
-            }
+            //if (!player.isAttacking)
+            //{
+            //    animator.SetBool(TransitionParameters.Normal_Attack.ToString(), false);
+            //}
+
+            player.randomBasicAttack(animator);
 
             registeredAttack(player, stateInfo);
             deRegisteredAttack(stateInfo);
@@ -66,7 +75,7 @@ namespace DumbAssStudio
                         continue;
                     }
 
-                    if (info.attackAbility == this && !info.isRegistered)
+                    if (this == info.attackAbility && !info.isRegistered)
                     {
                         info.registeredAttack(playerController, this);
                     }

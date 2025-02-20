@@ -47,33 +47,50 @@ namespace DumbAssStudio
 
                 if (info.mustCollide)
                 {
-                    foreach (GameObject obj in info.attacker.objectCollidingParts)
+                    if (isCollidedPart(info))
                     {
-                        foreach (TriggerDetector t in playerController.getAllTriggers())
-                        {
-                            foreach(Collider col in t.collidingParts)
-                            {
-
-                            }
-
-                            if (obj.name.Equals(t.gameObject.name))
-                            {
-                                takeDamage(info, t.name);
-                            }
-                        }
+                        takeDamage(info);
                     }
                 }
             }
         }
 
-        private void takeDamage(AttackInfo info, string objName)
+        private bool isCollidedPart(AttackInfo info)
+        {
+            foreach (TriggerDetector t in playerController.getAllTriggers())
+            {
+                foreach (Collider col in t.collidingParts)
+                {
+                    foreach (AttackType types in info.attackTypes)
+                    {
+                        if (types == AttackType.RIGHT_HAND)
+                        {
+                            if (col.gameObject == info.attacker.rightHandAttack)
+                            {
+                                return true;
+                            }
+                        }
+                        else if (types == AttackType.LEFT_HAND)
+                        {
+                            if (col.gameObject == info.attacker.leftHandAttack)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        private void takeDamage(AttackInfo info)
         {
             GameObjectType enemyObjType = playerController.GetComponent<GameObjectType>();
             GameObjectType attackerObjType = info.attacker.GetComponent<GameObjectType>();
 
             if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
             {
-                Debug.Log(playerController.name + " hit into " + objName + " part");
+                Debug.Log(playerController.name + " hit by " + info.attacker.name);
             }
         }
     }
