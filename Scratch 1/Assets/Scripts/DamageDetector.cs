@@ -90,9 +90,9 @@ namespace DumbAssStudio
             GameObjectType enemyObjType = playerController.GetComponent<GameObjectType>();
             GameObjectType attackerObjType = info.attacker.GetComponent<GameObjectType>();
 
+            int rand = Random.Range(0, hitReactionList.Count);
             if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
             {
-                int rand = Random.Range(0, hitReactionList.Count);
                 playerController.getSkinnedMesh.runtimeAnimatorController = hitReactionList[rand];
                 //Debug.Log(playerController.name + " hit by " + info.attacker.name + " using " + info.attackAbility.name);
             }
