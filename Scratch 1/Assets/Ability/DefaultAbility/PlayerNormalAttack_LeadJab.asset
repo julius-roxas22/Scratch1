@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerNormalAttack_LeadJab
   m_EditorClassIdentifier: 
   attackTypes: 00000000
-  startTimeAttack: 0.33
-  endTimeAttack: 0.65
+  startTimeAttack: 0.39
+  endTimeAttack: 0.7
   mustCollide: 1
+  onEnableDebug: 0

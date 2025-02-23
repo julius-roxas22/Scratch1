@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 1
 --- !u!1 &689053394220650037
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 0
 --- !u!1 &1193381716264903263
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,6 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 2
 --- !u!1 &1233880526525713381
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,6 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 0
 --- !u!1 &1750147369684171958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,6 +1205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 1
 --- !u!1 &2495341956789574375
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,6 +1697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 0
 --- !u!1 &4125361652021775212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +1843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 2
 --- !u!1 &4274948281170013047
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,6 +2052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 3
 --- !u!1 &4418447348540070280
 GameObject:
   m_ObjectHideFlags: 0
@@ -2831,6 +2839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 0
 --- !u!1 &6454934418778040224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2976,6 +2985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 3
 --- !u!1 &6561311796435326903
 GameObject:
   m_ObjectHideFlags: 0
@@ -3121,6 +3131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 0
 --- !u!1 &6780175999892154555
 GameObject:
   m_ObjectHideFlags: 0
@@ -3295,6 +3306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 0
 --- !u!1 &7481086708316160893
 GameObject:
   m_ObjectHideFlags: 0
@@ -3922,6 +3934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingParts: []
+  bodyParts: 0
 --- !u!1 &8581858180862480149
 GameObject:
   m_ObjectHideFlags: 0

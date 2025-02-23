@@ -7,6 +7,7 @@ namespace DumbAssStudio
     public class DamageDetector : MonoBehaviour
     {
         private PlayerController playerController;
+        private eBodyParts bodyParts;
 
         [SerializeField] private List<RuntimeAnimatorController> hitReactionList = new List<RuntimeAnimatorController>();
 
@@ -57,6 +58,8 @@ namespace DumbAssStudio
             }
         }
 
+        string damagePart = string.Empty;
+
         private bool isCollidedPart(AttackInfo info)
         {
             foreach (TriggerDetector t in playerController.getAllTriggers())
@@ -69,6 +72,7 @@ namespace DumbAssStudio
                         {
                             if (col.gameObject == info.attacker.rightHandAttack)
                             {
+                                bodyParts = t.bodyParts;
                                 return true;
                             }
                         }
@@ -76,9 +80,11 @@ namespace DumbAssStudio
                         {
                             if (col.gameObject == info.attacker.leftHandAttack)
                             {
+                                bodyParts = t.bodyParts;
                                 return true;
                             }
                         }
+                        damagePart = col.name;
                     }
                 }
             }
@@ -89,13 +95,13 @@ namespace DumbAssStudio
         {
             GameObjectType enemyObjType = playerController.GetComponent<GameObjectType>();
             GameObjectType attackerObjType = info.attacker.GetComponent<GameObjectType>();
-
-            int rand = Random.Range(0, hitReactionList.Count);
-            if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
-            {
-                playerController.getSkinnedMesh.runtimeAnimatorController = hitReactionList[rand];
-                //Debug.Log(playerController.name + " hit by " + info.attacker.name + " using " + info.attackAbility.name);
-            }
+            playerController.getSkinnedMesh.runtimeAnimatorController = DeathManager.getInstance.getDeathType(bodyParts);
+            //int rand = Random.Range(0, hitReactionList.Count);
+            //if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
+            //{
+            //    playerController.getSkinnedMesh.runtimeAnimatorController = hitReactionList[rand];
+            //}
+            //Debug.Log(playerController.name + " hit by " + info.attacker.name + " into " + bodyParts.ToString());
         }
     }
 }

@@ -4,9 +4,17 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
+    public enum eBodyParts
+    {
+        Upper,
+        Lower,
+        Leg,
+        Arm
+    }
     public class TriggerDetector : MonoBehaviour
     {
         public List<Collider> collidingParts = new List<Collider>();
+        public eBodyParts bodyParts;
 
         private PlayerController playerController;
 
