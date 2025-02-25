@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3b4837a0b7ebf42b0c9eaed4cd48e8, type: 3}
   m_Name: FromHitToDefault
   m_EditorClassIdentifier: 
-  switchTiming: 0.04
+  switchTiming: 0.02
   defaultAnimator: {fileID: 9100000, guid: 67cec5506382cfd499527bdb727d8032, type: 2}

@@ -8,7 +8,8 @@ namespace DumbAssStudio
     {
         void Update()
         {
-            VirtualInpuManager.getInstance.OnRightMouseButtonDown = Input.GetMouseButtonDown(1) ? true : false;
+            VirtualInpuManager.getInstance.onRightMouseButtonDown = Input.GetMouseButtonDown(1) ? true : false;
+            VirtualInpuManager.getInstance.onLeftMouseButtonDown = Input.GetMouseButtonDown(0) ? true : false;
             VirtualInpuManager.getInstance.onPressStop = Input.GetKey(KeyCode.S) ? true : false;
         }
     }

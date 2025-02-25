@@ -29,7 +29,8 @@ namespace DumbAssStudio
         public bool isWalking;
         public bool isAttacking;
         public bool onPressStop;
-        public bool OnRightMouseButtonDown;
+        public bool onRightMouseButtonDown;
+        //public bool onLeftMouseButtonDown;
         public float stoppingDist;
         public float smoothTurningLookForward;
         public bool forwardLook;
@@ -44,6 +45,7 @@ namespace DumbAssStudio
         private Vector3 targetHitPoint;
 
         private int randomAttack;
+
 
         public void setRandomAttack(int randomAttack)
         {
@@ -168,35 +170,9 @@ namespace DumbAssStudio
 
         private void Update()
         {
-            //Time.timeScale = .2f;
-            Ray ray = CameraManager.getInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (OnRightMouseButtonDown)
-            {
-                if (Physics.Raycast(ray, out hit))
-                {
-                    forwardLook = true;
-
-                    Vector3 hitP = hit.point;
-                    hitP.y = 0;
-                    getTargetHitPoint = hitP;
-
-                    VirtualInpuManager.getInstance.isWalking = true;
-
-                    GameObject objHitP = Instantiate(Resources.Load("HitPoint", typeof(GameObject))) as GameObject;
-                    objHitP.transform.position = getTargetHitPoint;
-                    Destroy(objHitP, 2f);
-
-                    interactionObjectChecker(hit.collider);
-                }
-
-            }
-
             if (forwardLook)
             {
-                Vector3 look = getTargetHitPoint - transform.position;
-                look.y = 0f;
+                Vector3 look = new Vector3(getTargetHitPoint.x - transform.position.x, 0f, getTargetHitPoint.z - transform.position.z);
 
                 if (look != Vector3.zero)
                 {
@@ -254,7 +230,7 @@ namespace DumbAssStudio
             }
         }
 
-        private void interactionObjectChecker(Collider col)
+        public void interactionObjectChecker(Collider col)
         {
             GameObjectType objType = col.transform.root.GetComponent<GameObjectType>();
 

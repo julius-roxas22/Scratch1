@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.AI;
 
 namespace DumbAssStudio
 {
@@ -10,7 +9,6 @@ namespace DumbAssStudio
     {
         public List<Obstacle> gameObjectObstacleList = new List<Obstacle>();
         public List<PlayerController> playerList = new List<PlayerController>();
-
         private void Awake()
         {
             obstacle();
@@ -19,7 +17,7 @@ namespace DumbAssStudio
 
         private void player()
         {
-            PlayerController[] players = GameManager.FindObjectsOfType<PlayerController>();
+            PlayerController[] players = FindObjectsOfType<PlayerController>();
             foreach (PlayerController p in players)
             {
                 if (!playerList.Contains(p))
@@ -41,5 +39,6 @@ namespace DumbAssStudio
                 }
             }
         }
+
     }
 }

@@ -95,12 +95,12 @@ namespace DumbAssStudio
         {
             GameObjectType enemyObjType = playerController.GetComponent<GameObjectType>();
             GameObjectType attackerObjType = info.attacker.GetComponent<GameObjectType>();
-            playerController.getSkinnedMesh.runtimeAnimatorController = DeathManager.getInstance.getDeathType(bodyParts);
-            //int rand = Random.Range(0, hitReactionList.Count);
-            //if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
-            //{
-            //    playerController.getSkinnedMesh.runtimeAnimatorController = hitReactionList[rand];
-            //}
+            //playerController.getSkinnedMesh.runtimeAnimatorController = DeathManager.getInstance.getDeathType(bodyParts);
+            int rand = Random.Range(0, hitReactionList.Count);
+            if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
+            {
+                playerController.getSkinnedMesh.runtimeAnimatorController = hitReactionList[rand];
+            }
             //Debug.Log(playerController.name + " hit by " + info.attacker.name + " into " + bodyParts.ToString());
         }
     }

@@ -10,12 +10,15 @@ public class PlayerMove : MonoBehaviour
     public bool isMoving;
     public float distanceToStop;
 
+    public Transform gunTip;
+    public float bulletSpeed;
+
     private void Update()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
         if (Input.GetMouseButtonDown(1))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
                 targetPosition = hit.point;
@@ -23,6 +26,14 @@ public class PlayerMove : MonoBehaviour
                 isMoving = true;
             }
         }
+
+        //if (Input.GetMouseButton(0))
+        //{
+        //    GameObject obj = Instantiate(Resources.Load("Bullet", typeof(GameObject))) as GameObject;
+        //    obj.transform.position = gunTip.transform.position;
+        //    Vector3 targetPos = obj.transform.position - targetPosition;
+        //    Vector3.MoveTowards(obj.transform.position, targetPos, bulletSpeed * Time.deltaTime);
+        //}
 
         if (isMoving)
         {
