@@ -46,6 +46,19 @@ namespace DumbAssStudio
 
         private int randomAttack;
 
+        private MouseController mouseController;
+
+        public MouseController getMouseController
+        {
+            get
+            {
+                if (null == mouseController)
+                {
+                    mouseController = FindObjectOfType<MouseController>();
+                }
+                return mouseController;
+            }
+        }
 
         public void setRandomAttack(int randomAttack)
         {
@@ -181,6 +194,37 @@ namespace DumbAssStudio
                     transform.rotation = smoothRotate;
                 }
             }
+
+            //foreach (GameObject obj in getMouseController.allSelectedCharacter)
+            //{
+            //    float dist = (getTargetHitPoint - obj.transform.position).sqrMagnitude;
+            //    if (obj == gameObject)
+            //    {
+            //        if (dist < stoppingDist)
+            //        {
+            //            VirtualInpuManager.getInstance.isWalking = false;
+            //            getNavAgent.isStopped = true;
+            //        }
+            //        else if (dist > stoppingDist)
+            //        {
+            //            VirtualInpuManager.getInstance.isWalking = true;
+            //            getNavAgent.isStopped = false;
+            //        }
+            //    }
+            //    else if (obj != gameObject)
+            //    {
+            //        if (dist < stoppingDist)
+            //        {
+            //            VirtualInpuManager.getInstance.isWalking = false;
+            //            getNavAgent.isStopped = true;
+            //        }
+            //        else if (dist > stoppingDist)
+            //        {
+            //            VirtualInpuManager.getInstance.isWalking = true;
+            //            getNavAgent.isStopped = false;
+            //        }
+            //    }
+            //}
 
             float stoppingPointDist = (getTargetHitPoint - transform.position).sqrMagnitude;
 

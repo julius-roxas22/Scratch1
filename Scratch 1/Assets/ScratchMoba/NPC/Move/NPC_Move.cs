@@ -29,8 +29,9 @@ namespace DumbAssStudio
                 if (objType.objectType == ObjectType.Allies)
                 {
                     playerController.forwardLook = true;
-                    playerController.getTargetHitPoint = objType.gameObject.transform.position;
-                    playerController.isWalking = true;
+                    //playerController.getTargetHitPoint = objType.gameObject.transform.position;
+                    //playerController.isWalking = true;
+                    playerController.transform.Translate(objType.gameObject.transform.position * 10f * Time.deltaTime);
                 }
             }
         }

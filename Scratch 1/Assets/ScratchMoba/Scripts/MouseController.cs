@@ -7,17 +7,19 @@ namespace DumbAssStudio
     public class MouseController : MonoBehaviour
     {
         public GameObject onHoverGameobject;
-        public GameObject selectedCharacter;
+        //public GameObject selectedCharacter;
+
+        public List<GameObject> allSelectedCharacter = new List<GameObject>();
 
         private void Awake()
         {
             if (null == onHoverGameobject)
             {
-                foreach (PlayerController p in GameManager.getInstance.playerList)
+                foreach (PlayerController playerController in GameManager.getInstance.playerList)
                 {
-                    if (p.name.Contains("Player"))
+                    if (!allSelectedCharacter.Contains(playerController.gameObject))
                     {
-                        selectedCharacter = p.gameObject;
+                        allSelectedCharacter.Add(playerController.gameObject);
                     }
                 }
             }
@@ -35,23 +37,46 @@ namespace DumbAssStudio
             {
                 if (null != onHoverGameobject)
                 {
-                    selectedCharacter = onHoverGameobject;
+                    if (!allSelectedCharacter.Contains(onHoverGameobject))
+                    {
+                        allSelectedCharacter.Add(onHoverGameobject);
+                    }
                 }
             }
 
+            GameObject hitObjPt = null;
+
             if (Input.GetMouseButton(1))
             {
-                PlayerController playerController = selectedCharacter.GetComponent<PlayerController>();
-                if (null != playerController)
+                foreach (GameObject obj in allSelectedCharacter)
                 {
-                    playerController.forwardLook = true;
-                    playerController.getTargetHitPoint = new Vector3(hit.point.x, 0f, hit.point.z);
-                    VirtualInpuManager.getInstance.isWalking = true;
-                    playerController.interactionObjectChecker(hit.collider);
+                    PlayerController playerController = obj.GetComponent<PlayerController>();
+                    if (null != playerController)
+                    {
+                        playerController.forwardLook = true;
+                        playerController.getTargetHitPoint = new Vector3(hit.point.x, 0f, hit.point.z);
+                        VirtualInpuManager.getInstance.isWalking = true;
+                        playerController.interactionObjectChecker(hit.collider);
+                    }
+                }
+
+                if (null == hitObjPt)
+                {
+                    hitObjPt = Instantiate(Resources.Load("HitPoint", typeof(GameObject))) as GameObject;
+                    hitObjPt.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
+                    Destroy(hitObjPt, 2f);
+                }
+            }
+
+            foreach (GameObject o in allSelectedCharacter)
+            {
+                PlayerController controller = o.GetComponent<PlayerController>();
+                if (null != controller)
+                {
+                    Debug.DrawRay(o.transform.position, controller.getNavAgent.destination, Color.black);
                 }
             }
         }
     }
-
 }
 

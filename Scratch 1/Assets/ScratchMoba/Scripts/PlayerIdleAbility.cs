@@ -37,11 +37,6 @@ namespace DumbAssStudio
                 player.getNavAgent.isStopped = false;
             }
 
-            //if (player.isAttacking)
-            //{
-            //    animator.SetBool(TransitionParameters.Normal_Attack.ToString(), true);
-            //}    
-
             if (player.isAttacking)
             {
                 if (player.getRandomAttack() == 1)

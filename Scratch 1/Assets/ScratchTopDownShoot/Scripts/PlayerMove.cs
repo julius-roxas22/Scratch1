@@ -16,24 +16,17 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
         if (Input.GetMouseButtonDown(1))
         {
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                targetPosition = hit.point;
-                targetPosition.y = transform.position.y;
-                isMoving = true;
+                {
+                    targetPosition = hit.point;
+                    targetPosition.y = transform.position.y;
+                    isMoving = true;
+                }
             }
         }
-
-        //if (Input.GetMouseButton(0))
-        //{
-        //    GameObject obj = Instantiate(Resources.Load("Bullet", typeof(GameObject))) as GameObject;
-        //    obj.transform.position = gunTip.transform.position;
-        //    Vector3 targetPos = obj.transform.position - targetPosition;
-        //    Vector3.MoveTowards(obj.transform.position, targetPos, bulletSpeed * Time.deltaTime);
-        //}
 
         if (isMoving)
         {
@@ -51,8 +44,7 @@ public class PlayerMove : MonoBehaviour
             {
                 isMoving = false;
             }
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
         }
-
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
     }
 }
