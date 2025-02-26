@@ -54,6 +54,10 @@ namespace DumbAssStudio
             {
                 animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), false);
             }
+            else if (player.getRandomAttack() == 3)
+            {
+                animator.SetBool(TransitionParameters.Normal_Attack3.ToString(), false);
+            }
 
             registeredAttack(player, stateInfo);
             deRegisteredAttack(stateInfo);
@@ -63,11 +67,6 @@ namespace DumbAssStudio
         {
             player.getNavAgent.destination = currentAttackPos;
             player.transform.rotation = currentAttackRotate;
-
-            //if (player.getRandomAttack() != 0)
-            //{
-            //    player.setRandomAttack(0);
-            //}
 
             clearAttacks();
         }

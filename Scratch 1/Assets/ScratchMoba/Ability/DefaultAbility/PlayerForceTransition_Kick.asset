@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa99bcb3f9506fa41a417ec442c6cd57, type: 3}
-  m_Name: PlayerNormalAttackForceTransition_CrossPunch
+  m_Name: PlayerForceTransition_Kick
   m_EditorClassIdentifier: 
-  transitionTiming: 0.75
+  transitionTiming: 0.85

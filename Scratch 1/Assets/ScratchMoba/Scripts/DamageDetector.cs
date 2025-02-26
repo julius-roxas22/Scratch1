@@ -58,8 +58,6 @@ namespace DumbAssStudio
             }
         }
 
-        string damagePart = string.Empty;
-
         private bool isCollidedPart(AttackInfo info)
         {
             foreach (TriggerDetector t in playerController.getAllTriggers())
@@ -84,7 +82,6 @@ namespace DumbAssStudio
                                 return true;
                             }
                         }
-                        damagePart = col.name;
                     }
                 }
             }

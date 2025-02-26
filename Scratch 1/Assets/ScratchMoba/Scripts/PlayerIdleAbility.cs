@@ -17,6 +17,10 @@ namespace DumbAssStudio
             {
                 animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), false);
             }
+            else if (player.getRandomAttack() == 3)
+            {
+                animator.SetBool(TransitionParameters.Normal_Attack3.ToString(), false);
+            }
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
@@ -39,7 +43,7 @@ namespace DumbAssStudio
 
             if (player.isAttacking)
             {
-                player.setRandomAttack(Random.Range(1, 3));
+                player.setRandomAttack(Random.Range(1, 4));
 
                 if (player.getRandomAttack() == 1)
                 {
@@ -48,6 +52,9 @@ namespace DumbAssStudio
                 else if (player.getRandomAttack() == 2)
                 {
                     animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), true);
+                }else if(player.getRandomAttack() == 3)
+                {
+                    animator.SetBool(TransitionParameters.Normal_Attack3.ToString(), true);
                 }
             }
         }

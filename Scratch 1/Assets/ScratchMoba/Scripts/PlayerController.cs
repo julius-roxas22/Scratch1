@@ -11,6 +11,7 @@ namespace DumbAssStudio
         SpellAttack1,
         Normal_Attack1,
         Normal_Attack2,
+        Normal_Attack3,
         ForceTransition,
     }
 
@@ -30,8 +31,6 @@ namespace DumbAssStudio
         public bool isAttacking;
         public bool onPressStop;
         public bool onRightMouseButtonDown;
-        //public bool onLeftMouseButtonDown;
-        public float stoppingDist;
         public float smoothTurningLookForward;
         public bool forwardLook;
 
@@ -47,12 +46,6 @@ namespace DumbAssStudio
         private int randomAttack;
 
         private MouseController mouseController;
-
-        //private void Awake()
-        //{
-        //    getTargetHitPoint = GameObject.Find("Destination").transform.position;
-        //    VirtualInpuManager.getInstance.isWalking = true;
-        //}
 
         public MouseController getMouseController
         {
@@ -201,13 +194,6 @@ namespace DumbAssStudio
                 }
             }
 
-            float stoppingPointDist = (getTargetHitPoint - transform.position).sqrMagnitude;
-
-            if (stoppingPointDist < stoppingDist)
-            {
-                VirtualInpuManager.getInstance.isWalking = false;
-            }
-
             onEnemyHit();
         }
 
@@ -310,8 +296,6 @@ namespace DumbAssStudio
                 VirtualInpuManager.getInstance.isWalking = true;
                 getTargetHitPoint = enemy.transform.position;
             }
-
-            Debug.Log(getRandomAttack());
         }
 
         private void instantLookAround()

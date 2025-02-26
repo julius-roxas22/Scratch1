@@ -7,6 +7,7 @@ namespace DumbAssStudio
     [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerMove")]
     public class PlayerMoveAbility : AbilityStateBase
     {
+        public float stoppingDistance;
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
@@ -34,6 +35,13 @@ namespace DumbAssStudio
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
                 player.getNavAgent.isStopped = true;
+            }
+
+            float stoppingPointDist = (player.getTargetHitPoint - player.transform.position).sqrMagnitude;
+
+            if (stoppingPointDist < stoppingDistance)
+            {
+                VirtualInpuManager.getInstance.isWalking = false;
             }
         }
     }
