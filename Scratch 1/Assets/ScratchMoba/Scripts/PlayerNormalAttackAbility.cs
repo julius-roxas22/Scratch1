@@ -64,10 +64,10 @@ namespace DumbAssStudio
             player.getNavAgent.destination = currentAttackPos;
             player.transform.rotation = currentAttackRotate;
 
-            if (player.getRandomAttack() != 0)
-            {
-                player.setRandomAttack(0);
-            }
+            //if (player.getRandomAttack() != 0)
+            //{
+            //    player.setRandomAttack(0);
+            //}
 
             clearAttacks();
         }

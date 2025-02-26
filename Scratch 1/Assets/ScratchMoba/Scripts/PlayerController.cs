@@ -48,6 +48,12 @@ namespace DumbAssStudio
 
         private MouseController mouseController;
 
+        //private void Awake()
+        //{
+        //    getTargetHitPoint = GameObject.Find("Destination").transform.position;
+        //    VirtualInpuManager.getInstance.isWalking = true;
+        //}
+
         public MouseController getMouseController
         {
             get
@@ -195,37 +201,6 @@ namespace DumbAssStudio
                 }
             }
 
-            //foreach (GameObject obj in getMouseController.allSelectedCharacter)
-            //{
-            //    float dist = (getTargetHitPoint - obj.transform.position).sqrMagnitude;
-            //    if (obj == gameObject)
-            //    {
-            //        if (dist < stoppingDist)
-            //        {
-            //            VirtualInpuManager.getInstance.isWalking = false;
-            //            getNavAgent.isStopped = true;
-            //        }
-            //        else if (dist > stoppingDist)
-            //        {
-            //            VirtualInpuManager.getInstance.isWalking = true;
-            //            getNavAgent.isStopped = false;
-            //        }
-            //    }
-            //    else if (obj != gameObject)
-            //    {
-            //        if (dist < stoppingDist)
-            //        {
-            //            VirtualInpuManager.getInstance.isWalking = false;
-            //            getNavAgent.isStopped = true;
-            //        }
-            //        else if (dist > stoppingDist)
-            //        {
-            //            VirtualInpuManager.getInstance.isWalking = true;
-            //            getNavAgent.isStopped = false;
-            //        }
-            //    }
-            //}
-
             float stoppingPointDist = (getTargetHitPoint - transform.position).sqrMagnitude;
 
             if (stoppingPointDist < stoppingDist)
@@ -328,7 +303,6 @@ namespace DumbAssStudio
             if (dist < getDefense.attackRange)
             {
                 VirtualInpuManager.getInstance.isAttacking = true;
-                setRandomAttack(Random.Range(1, 3));
             }
             else
             {
@@ -336,6 +310,8 @@ namespace DumbAssStudio
                 VirtualInpuManager.getInstance.isWalking = true;
                 getTargetHitPoint = enemy.transform.position;
             }
+
+            Debug.Log(getRandomAttack());
         }
 
         private void instantLookAround()

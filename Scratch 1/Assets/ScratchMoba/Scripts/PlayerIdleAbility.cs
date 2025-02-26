@@ -39,6 +39,8 @@ namespace DumbAssStudio
 
             if (player.isAttacking)
             {
+                player.setRandomAttack(Random.Range(1, 3));
+
                 if (player.getRandomAttack() == 1)
                 {
                     animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), true);
