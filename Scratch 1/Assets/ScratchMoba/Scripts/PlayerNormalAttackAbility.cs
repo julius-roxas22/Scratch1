@@ -4,20 +4,21 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
-    public enum AttackType
-    {
-        LEFT_HAND,
-        RIGHT_HAND
-    }
+    //public enum AttackType
+    //{
+    //    LEFT_HAND,
+    //    RIGHT_HAND
+    //}
 
-    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerNormalAttackAbility")]
+    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Data/DumbAssStudio/Ability/PlayerNormalAttackAbility")]
     public class PlayerNormalAttackAbility : AbilityStateBase
     {
         private Vector3 currentAttackPos;
         private Quaternion currentAttackRotate;
         private List<AttackInfo> finishedAttacks = new List<AttackInfo>();
 
-        public List<AttackType> attackTypes = new List<AttackType>();
+        //public List<AttackType> attackTypes = new List<AttackType>();
+        public HitType hitType;
         public float startTimeAttack;
         public float endTimeAttack;
 
@@ -45,6 +46,8 @@ namespace DumbAssStudio
         {
             player.transform.position = currentAttackPos;
             player.transform.rotation = currentAttackRotate;
+            registeredAttack(player, stateInfo);
+            deRegisteredAttack(stateInfo);
 
             if (player.getRandomAttack() == 1)
             {
@@ -58,9 +61,6 @@ namespace DumbAssStudio
             {
                 animator.SetBool(TransitionParameters.Normal_Attack3.ToString(), false);
             }
-
-            registeredAttack(player, stateInfo);
-            deRegisteredAttack(stateInfo);
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)

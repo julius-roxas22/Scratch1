@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3009b80591e16b8419e5b2ffe33dd8d4, type: 3}
-  m_Name: PlayerNormalAttack_Kick
+  m_Script: {fileID: 11500000, guid: 9e59409972bee3f46ba684df50665391, type: 3}
+  m_Name: RibHit
   m_EditorClassIdentifier: 
   hitType: 2
-  startTimeAttack: 0.39
-  endTimeAttack: 0.68
-  mustCollide: 1
-  onEnableDebug: 0
+  hitController: {fileID: 9100000, guid: 739b86bb154709240bcc7787357a79c1, type: 2}

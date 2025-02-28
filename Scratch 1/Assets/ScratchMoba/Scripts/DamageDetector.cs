@@ -9,7 +9,7 @@ namespace DumbAssStudio
         private PlayerController playerController;
         private eBodyParts bodyParts;
 
-        [SerializeField] private List<RuntimeAnimatorController> hitReactionList = new List<RuntimeAnimatorController>();
+        //[SerializeField] private List<RuntimeAnimatorController> hitReactionList = new List<RuntimeAnimatorController>();
 
         private void Awake()
         {
@@ -64,25 +64,30 @@ namespace DumbAssStudio
             {
                 foreach (Collider col in t.collidingParts)
                 {
-                    foreach (AttackType types in info.attackTypes)
+                    if (info.attacker.attackCollidingParts.Contains(col.gameObject))
                     {
-                        if (types == AttackType.RIGHT_HAND)
-                        {
-                            if (col.gameObject == info.attacker.rightHandAttack)
-                            {
-                                bodyParts = t.bodyParts;
-                                return true;
-                            }
-                        }
-                        else if (types == AttackType.LEFT_HAND)
-                        {
-                            if (col.gameObject == info.attacker.leftHandAttack)
-                            {
-                                bodyParts = t.bodyParts;
-                                return true;
-                            }
-                        }
+                        bodyParts = t.bodyParts;
+                        return true;
                     }
+                    //foreach (AttackType types in info.attackTypes)
+                    //{
+                    //    if (types == AttackType.RIGHT_HAND)
+                    //    {
+                    //        if (col.gameObject == info.attacker.rightHandAttack)
+                    //        {
+                    //            bodyParts = t.bodyParts;
+                    //            return true;
+                    //        }
+                    //    }
+                    //    else if (types == AttackType.LEFT_HAND)
+                    //    {
+                    //        if (col.gameObject == info.attacker.leftHandAttack)
+                    //        {
+                    //            bodyParts = t.bodyParts;
+                    //            return true;
+                    //        }
+                    //    }
+                    //}
                 }
             }
             return false;
@@ -90,14 +95,9 @@ namespace DumbAssStudio
 
         private void takeDamage(AttackInfo info)
         {
-            GameObjectType enemyObjType = playerController.GetComponent<GameObjectType>();
-            GameObjectType attackerObjType = info.attacker.GetComponent<GameObjectType>();
             //playerController.getSkinnedMesh.runtimeAnimatorController = DeathManager.getInstance.getDeathType(bodyParts);
-            int rand = Random.Range(0, hitReactionList.Count);
-            if (enemyObjType.objectType == ObjectType.Enemy && enemyObjType.objectType != attackerObjType.objectType)
-            {
-                playerController.getSkinnedMesh.runtimeAnimatorController = hitReactionList[rand];
-            }
+
+            playerController.getSkinnedMesh.runtimeAnimatorController = HitReactionManager.getInstance.getHitAnimatorController(info.hitType);
             //Debug.Log(playerController.name + " hit by " + info.attacker.name + " into " + bodyParts.ToString());
         }
     }

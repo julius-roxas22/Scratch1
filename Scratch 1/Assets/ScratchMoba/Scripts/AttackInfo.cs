@@ -8,7 +8,10 @@ namespace DumbAssStudio
     {
         public PlayerNormalAttackAbility attackAbility;
         public PlayerController attacker;
-        public List<AttackType> attackTypes = new List<AttackType>();
+        public HitType hitType;
+        //public List<AttackType> attackTypes = new List<AttackType>();
+
+        public List<GameObject> attackCollidingParts = new List<GameObject>();
 
         public float attackRange;
 
@@ -31,7 +34,8 @@ namespace DumbAssStudio
             attackAbility = attack;
             mustCollide = attack.mustCollide;
             attackRange = playerController.getDefense.attackRange;
-            attackTypes = attack.attackTypes;
+            hitType = attack.hitType;
+            //attackTypes = attack.attackTypes;
         }
     }
 }

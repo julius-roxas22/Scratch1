@@ -324,6 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Abilities:
   - {fileID: 11400000, guid: 18b690cb0443b484b9d03e31767e7a7a, type: 2}
+  - {fileID: 11400000, guid: b689013a1042e9f4285f18e42515c431, type: 2}
 --- !u!1102 &1650456177002574162
 AnimatorState:
   serializedVersion: 6

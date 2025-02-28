@@ -4,14 +4,20 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
-    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerMove")]
+    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Data/DumbAssStudio/Ability/PlayerMove")]
     public class PlayerMoveAbility : AbilityStateBase
     {
         public float stoppingDistance;
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-
+            if (player.getRandomAttack() != 0)
+            {
+                player.setRandomAttack(0);
+            }
+            animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), false);
+            animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), false);
+            animator.SetBool(TransitionParameters.Normal_Attack3.ToString(), false);
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)

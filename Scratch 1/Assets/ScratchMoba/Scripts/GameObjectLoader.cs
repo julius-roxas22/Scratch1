@@ -7,7 +7,9 @@ namespace DumbAssStudio
     public enum GameObjectLoaderType
     {
         HitPoint,
-        TrackingObject
+        TrackingObject,
+        Death,
+        HitReaction
     }
 
     public class GameObjectLoader : MonoBehaviour
@@ -26,6 +28,16 @@ namespace DumbAssStudio
                 case GameObjectLoaderType.TrackingObject:
                     {
                         obj = Instantiate(Resources.Load(GameObjectLoaderType.TrackingObject.ToString(), typeof(GameObject))) as GameObject;
+                        break;
+                    }
+                case GameObjectLoaderType.Death:
+                    {
+                        obj = Instantiate(Resources.Load(GameObjectLoaderType.Death.ToString(), typeof(GameObject))) as GameObject;
+                        break;
+                    }
+                case GameObjectLoaderType.HitReaction:
+                    {
+                        obj = Instantiate(Resources.Load(GameObjectLoaderType.HitReaction.ToString(), typeof(GameObject))) as GameObject;
                         break;
                     }
             }

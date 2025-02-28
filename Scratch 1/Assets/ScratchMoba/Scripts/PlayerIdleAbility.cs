@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
-    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/PlayerIdle")]
+    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Data/DumbAssStudio/Ability/PlayerIdle")]
     public class PlayerIdleAbility : AbilityStateBase
     {
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
@@ -52,7 +52,8 @@ namespace DumbAssStudio
                 else if (player.getRandomAttack() == 2)
                 {
                     animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), true);
-                }else if(player.getRandomAttack() == 3)
+                }
+                else if (player.getRandomAttack() == 3)
                 {
                     animator.SetBool(TransitionParameters.Normal_Attack3.ToString(), true);
                 }

@@ -40,5 +40,20 @@ namespace DumbAssStudio
             }
         }
 
+        public PlayerController getPlayableCharacter(string nameOfPlayer)
+        {
+            foreach (PlayerController p in playerList)
+            {
+                if (p.name.Equals(nameOfPlayer))
+                {
+                    if (p.GetComponent<ManualInput>().enabled)
+                    {
+                        return p;
+                    }
+                }
+            }
+            return null;
+        }
+
     }
 }

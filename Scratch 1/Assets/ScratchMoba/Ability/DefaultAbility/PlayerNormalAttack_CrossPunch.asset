@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3009b80591e16b8419e5b2ffe33dd8d4, type: 3}
   m_Name: PlayerNormalAttack_CrossPunch
   m_EditorClassIdentifier: 
-  attackTypes: 01000000
+  hitType: 3
   startTimeAttack: 0.42
   endTimeAttack: 0.72
   mustCollide: 1

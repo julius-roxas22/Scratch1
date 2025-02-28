@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
-    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Ability/DumbAssStudio/HitReactionSwitchAnimator")]
+    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Data/DumbAssStudio/HitReactionSwitchAnimator")]
     public class HitReactionSwitchAnimator : AbilityStateBase
     {
         public float switchTiming;

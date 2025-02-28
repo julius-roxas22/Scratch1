@@ -20,9 +20,11 @@ namespace DumbAssStudio
         public List<ObjectType> avoidObjectList = new List<ObjectType>();
         public List<GameObject> objHitPoints = new List<GameObject>();
         public List<Collider> ragdollParts = new List<Collider>();
+        public List<GameObject> attackCollidingParts = new List<GameObject>();
 
-        public GameObject rightHandAttack;
-        public GameObject leftHandAttack;
+        //public GameObject rightHandAttack;
+        //public GameObject leftHandAttack;
+
         public GameObject interactionObject;
 
         private List<TriggerDetector> triggerDetectors = new List<TriggerDetector>();
@@ -182,7 +184,21 @@ namespace DumbAssStudio
 
         private void Update()
         {
-            if (forwardLook)
+            Ray ray = CameraManager.getInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                // show every details of gameobject in the game
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                interactionObjectChecker(hit.collider);
+                forwardLook = true;
+                getTargetHitPoint = new Vector3(hit.point.x, 0f, hit.point.z);
+                VirtualInpuManager.getInstance.isWalking = true;
+            }
+
+            if (forwardLook && getManualInput.enabled)
             {
                 Vector3 look = new Vector3(getTargetHitPoint.x - transform.position.x, 0f, getTargetHitPoint.z - transform.position.z);
 
@@ -195,6 +211,7 @@ namespace DumbAssStudio
             }
 
             onEnemyHit();
+            //Debug.Log(getRandomAttack());
         }
 
         public void setUpRagdoll()
@@ -243,7 +260,18 @@ namespace DumbAssStudio
             {
                 case ObjectType.Enemy:
                     {
-                        interactionObject = objType.gameObject;
+                        if (getObjectType.objectType == ObjectType.Allies)
+                        {
+                            interactionObject = objType.gameObject;
+                        }
+                        break;
+                    }
+                case ObjectType.Allies:
+                    {
+                        if (getObjectType.objectType == ObjectType.Enemy)
+                        {
+                            interactionObject = objType.gameObject;
+                        }
                         break;
                     }
                 default:

@@ -7,14 +7,14 @@ namespace DumbAssStudio
     public class DeathManager : Singleton<DeathManager>
     {
         private List<RuntimeAnimatorController> candidates = new List<RuntimeAnimatorController>();
-        private DeathLoader death;
+        private DeathData death;
 
         private void InstantiateDeath()
         {
             if (null == death)
             {
-                GameObject o = Instantiate(Resources.Load("Death", typeof(GameObject))) as GameObject;
-                death = o.GetComponent<DeathLoader>();
+                GameObject o = GameObjectLoader.CreatePrefab(GameObjectLoaderType.Death);
+                death = o.GetComponent<DeathData>();
             }
         }
 

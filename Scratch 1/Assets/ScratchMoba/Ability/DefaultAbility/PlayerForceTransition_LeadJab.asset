@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3009b80591e16b8419e5b2ffe33dd8d4, type: 3}
-  m_Name: PlayerNormalAttack_Kick
+  m_Script: {fileID: 11500000, guid: aa99bcb3f9506fa41a417ec442c6cd57, type: 3}
+  m_Name: PlayerForceTransition_LeadJab
   m_EditorClassIdentifier: 
-  hitType: 2
-  startTimeAttack: 0.39
-  endTimeAttack: 0.68
-  mustCollide: 1
-  onEnableDebug: 0
+  transitionTiming: 0.85

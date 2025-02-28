@@ -7,18 +7,19 @@ namespace DumbAssStudio
     public class MouseController : MonoBehaviour
     {
         public GameObject onHoverGameobject;
+        public GameObject selectedMovableCharacter;
 
-        private PlayerController playerController;
-        private void Awake()
-        {
-            foreach (PlayerController p in GameManager.getInstance.playerList)
-            {
-                if (p.name.Equals("Player"))
-                {
-                    playerController = p;
-                }
-            }
-        }
+        //private PlayerController playerController;
+        //private void Awake()
+        //{
+        //    foreach (PlayerController p in GameManager.getInstance.playerList)
+        //    {
+        //        if (p.name.Equals("Player"))
+        //        {
+        //            playerController = p;
+        //        }
+        //    }
+        //}
 
         void Update()
         {
@@ -28,10 +29,19 @@ namespace DumbAssStudio
                 onHoverGameobject = hit.transform.gameObject;
             }
 
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (null != onHoverGameobject)
+                {
+                    selectedMovableCharacter = onHoverGameobject;
+                }
+            }
+
             GameObject hitObjPt = null;
 
             if (Input.GetMouseButtonDown(1))
             {
+                PlayerController playerController = selectedMovableCharacter.GetComponent<PlayerController>();
                 if (null == playerController)
                 {
                     return;

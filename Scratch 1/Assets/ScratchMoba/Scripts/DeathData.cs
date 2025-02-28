@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
-    public class DeathLoader : MonoBehaviour
+    public class DeathData : MonoBehaviour
     {
         public List<DeathAnimationType> deathType = new List<DeathAnimationType>();
     }

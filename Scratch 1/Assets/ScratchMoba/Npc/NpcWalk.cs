@@ -4,29 +4,28 @@ using UnityEngine;
 
 namespace DumbAssStudio
 {
-    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Data/DumbAssStudio/Ability/PlayerForceTransitionAbility")]
-    public class PlayerForceTransitionAbility : AbilityStateBase
+    [CreateAssetMenu(fileName = "New Ability", menuName = "Create Data/DumbAssStudio/NPC_Ability/NpcWalk")]
+    public class NpcWalk : AbilityStateBase
     {
-
-        [Range(0f, 1f)]
-        public float transitionTiming;
-
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-
+            player.getTargetHitPoint = GameManager.getInstance.getPlayableCharacter("Player").transform.position;
+            player.isWalking = true;
+            Debug.Log(player.name + " walking towards to " + GameManager.getInstance.getPlayableCharacter("Player").name);
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            if (stateInfo.normalizedTime >= transitionTiming)
-            {
-                animator.SetBool(TransitionParameters.ForceTransition.ToString(), true);
-            }
+
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            animator.SetBool(TransitionParameters.ForceTransition.ToString(), false);
+
         }
+
+
     }
 }
+
+

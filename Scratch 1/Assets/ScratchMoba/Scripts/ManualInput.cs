@@ -14,10 +14,10 @@ namespace DumbAssStudio
 
         private void Update()
         {
-            playerController.isWalking = VirtualInpuManager.getInstance.isWalking;
-            playerController.isAttacking = VirtualInpuManager.getInstance.isAttacking;
-            playerController.onPressStop = VirtualInpuManager.getInstance.onPressStop;
-            playerController.onRightMouseButtonDown = VirtualInpuManager.getInstance.onRightMouseButtonDown;
+            playerController.isWalking = VirtualInpuManager.getInstance.isWalking ? true : false;
+            playerController.isAttacking = VirtualInpuManager.getInstance.isAttacking ? true : false;
+            playerController.onPressStop = VirtualInpuManager.getInstance.onPressStop ? true : false;
+            playerController.onRightMouseButtonDown = VirtualInpuManager.getInstance.onRightMouseButtonDown ? true : false;
             //playerController.onLeftMouseButtonDown = VirtualInpuManager.getInstance.onLeftMouseButtonDown;
         }
     }
