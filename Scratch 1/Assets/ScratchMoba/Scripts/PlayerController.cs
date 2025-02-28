@@ -44,10 +44,23 @@ namespace DumbAssStudio
         private DamageDetector damageDetector;
         private Defense defense;
         private Vector3 targetHitPoint;
+        private NpcProgress npcProgress;
 
         private int randomAttack;
 
         private MouseController mouseController;
+
+        public NpcProgress getNpcProgress
+        {
+            get
+            {
+                if (null == npcProgress)
+                {
+                    npcProgress = GetComponentInChildren<NpcProgress>();
+                }
+                return npcProgress;
+            }
+        }
 
         public MouseController getMouseController
         {
@@ -181,24 +194,36 @@ namespace DumbAssStudio
             }
             return triggerDetectors;
         }
+        //private void Awake()
+        //{
+        //    if (!getManualInput.enabled)
+        //    {
+
+        //    }
+        //}
 
         private void Update()
         {
             Ray ray = CameraManager.getInstance.GetCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                // show every details of gameobject in the game
+                //show every details of gameobject in the game
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && getManualInput.enabled)
             {
-                interactionObjectChecker(hit.collider);
+                if (hit.collider.gameObject == gameObject)
+                {
+                    return;
+                }
+
                 forwardLook = true;
                 getTargetHitPoint = new Vector3(hit.point.x, 0f, hit.point.z);
                 VirtualInpuManager.getInstance.isWalking = true;
+                interactionObjectChecker(hit.collider);
             }
 
-            if (forwardLook && getManualInput.enabled)
+            if (forwardLook)
             {
                 Vector3 look = new Vector3(getTargetHitPoint.x - transform.position.x, 0f, getTargetHitPoint.z - transform.position.z);
 
@@ -209,9 +234,7 @@ namespace DumbAssStudio
                     transform.rotation = smoothRotate;
                 }
             }
-
             onEnemyHit();
-            //Debug.Log(getRandomAttack());
         }
 
         public void setUpRagdoll()
@@ -285,13 +308,6 @@ namespace DumbAssStudio
 
         private void onEnemyHit()
         {
-            PlayerController playerActive = null;
-
-            if (getManualInput.enabled)
-            {
-                playerActive = this;
-            }
-
             GameObject enemy = null;
 
             if (null != interactionObject)
@@ -307,22 +323,46 @@ namespace DumbAssStudio
 
             GameObjectType eObjType = enemy.GetComponent<GameObjectType>();
 
-            if (eObjType.objectType == getObjectType.objectType)
+            bool canAbleToAttack = false;
+
+            if (getObjectType.objectType == eObjType.objectType)
             {
+                canAbleToAttack = false;
                 return;
             }
-
-            float dist = (enemy.transform.position - playerActive.transform.position).sqrMagnitude;
-
-            if (dist < getDefense.attackRange)
+            else if (eObjType.objectType == ObjectType.Enemy)
             {
-                VirtualInpuManager.getInstance.isAttacking = true;
+                if (getObjectType.objectType == ObjectType.Allies)
+                {
+                    canAbleToAttack = true;
+                }
+            }
+            else if (eObjType.objectType == ObjectType.Allies)
+            {
+                if (getObjectType.objectType == ObjectType.Enemy)
+                {
+                    canAbleToAttack = true;
+                }
             }
             else
             {
-                VirtualInpuManager.getInstance.isAttacking = false;
-                VirtualInpuManager.getInstance.isWalking = true;
-                getTargetHitPoint = enemy.transform.position;
+                canAbleToAttack = false;
+            }
+
+            if (canAbleToAttack)
+            {
+                float dist = (enemy.transform.position - transform.position).sqrMagnitude;
+
+                if (dist < getDefense.attackRange)
+                {
+                    VirtualInpuManager.getInstance.isAttacking = true;
+                }
+                else
+                {
+                    VirtualInpuManager.getInstance.isAttacking = false;
+                    VirtualInpuManager.getInstance.isWalking = true;
+                    getTargetHitPoint = enemy.transform.position;
+                }
             }
         }
 

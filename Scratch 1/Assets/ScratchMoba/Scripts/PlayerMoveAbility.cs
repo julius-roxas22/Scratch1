@@ -40,12 +40,13 @@ namespace DumbAssStudio
             if (!player.isWalking)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
+                player.getNavAgent.destination = player.transform.position;
                 player.getNavAgent.isStopped = true;
             }
 
             float stoppingPointDist = (player.getTargetHitPoint - player.transform.position).sqrMagnitude;
 
-            if (stoppingPointDist < stoppingDistance)
+            if (stoppingPointDist < stoppingDistance && player.getManualInput.enabled)
             {
                 VirtualInpuManager.getInstance.isWalking = false;
             }
