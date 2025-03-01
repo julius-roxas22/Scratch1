@@ -95,10 +95,10 @@ namespace DumbAssStudio
 
         private void takeDamage(AttackInfo info)
         {
+            //playerController.getSkinnedMesh.runtimeAnimatorController = HitReactionManager.getInstance.getHitAnimatorController(info.hitType);
             //playerController.getSkinnedMesh.runtimeAnimatorController = DeathManager.getInstance.getDeathType(bodyParts);
-
-            playerController.getSkinnedMesh.runtimeAnimatorController = HitReactionManager.getInstance.getHitAnimatorController(info.hitType);
             //Debug.Log(playerController.name + " hit by " + info.attacker.name + " into " + bodyParts.ToString());
+            Debug.Log(playerController.name + " hit by " + info.attacker.name);
         }
     }
 }

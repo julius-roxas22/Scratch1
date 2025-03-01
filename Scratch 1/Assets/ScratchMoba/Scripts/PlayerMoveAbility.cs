@@ -11,13 +11,7 @@ namespace DumbAssStudio
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            if (player.getRandomAttack() != 0)
-            {
-                player.setRandomAttack(0);
-            }
-            animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), false);
-            animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), false);
-            animator.SetBool(TransitionParameters.Normal_Attack3.ToString(), false);
+            
         }
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
@@ -40,7 +34,6 @@ namespace DumbAssStudio
             if (!player.isWalking)
             {
                 animator.SetBool(TransitionParameters.Walk.ToString(), false);
-                player.getNavAgent.destination = player.transform.position;
                 player.getNavAgent.isStopped = true;
             }
 

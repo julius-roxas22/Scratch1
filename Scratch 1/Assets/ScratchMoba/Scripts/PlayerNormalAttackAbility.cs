@@ -13,8 +13,6 @@ namespace DumbAssStudio
     [CreateAssetMenu(fileName = "New Ability", menuName = "Create Data/DumbAssStudio/Ability/PlayerNormalAttackAbility")]
     public class PlayerNormalAttackAbility : AbilityStateBase
     {
-        private Vector3 currentAttackPos;
-        private Quaternion currentAttackRotate;
         private List<AttackInfo> finishedAttacks = new List<AttackInfo>();
 
         //public List<AttackType> attackTypes = new List<AttackType>();
@@ -27,9 +25,6 @@ namespace DumbAssStudio
 
         public override void OnEnterAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            currentAttackPos = player.transform.position;
-            currentAttackRotate = player.transform.rotation;
-
             GameObject obj = PoolManager.getInstance.InstantiatePoolObjectPrefab(PoolObjectType.ATTACKINFO);
             AttackInfo info = obj.GetComponent<AttackInfo>();
 
@@ -44,30 +39,13 @@ namespace DumbAssStudio
 
         public override void OnUpdateAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            player.transform.position = currentAttackPos;
-            player.transform.rotation = currentAttackRotate;
+
             registeredAttack(player, stateInfo);
             deRegisteredAttack(stateInfo);
-
-            if (player.getRandomAttack() == 1)
-            {
-                animator.SetBool(TransitionParameters.Normal_Attack1.ToString(), false);
-            }
-            else if (player.getRandomAttack() == 2)
-            {
-                animator.SetBool(TransitionParameters.Normal_Attack2.ToString(), false);
-            }
-            else if (player.getRandomAttack() == 3)
-            {
-                animator.SetBool(TransitionParameters.Normal_Attack3.ToString(), false);
-            }
         }
 
         public override void OnExitAbility(PlayerController player, AnimatorStateInfo stateInfo, Animator animator)
         {
-            player.getNavAgent.destination = currentAttackPos;
-            player.transform.rotation = currentAttackRotate;
-
             clearAttacks();
         }
 

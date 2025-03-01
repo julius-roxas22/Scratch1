@@ -353,11 +353,12 @@ namespace DumbAssStudio
             {
                 float dist = (enemy.transform.position - transform.position).sqrMagnitude;
 
-                if (dist < getDefense.attackRange)
+                if (dist < getDefense.attackRange && getManualInput.enabled)
                 {
                     VirtualInpuManager.getInstance.isAttacking = true;
+                    VirtualInpuManager.getInstance.isWalking = false;
                 }
-                else
+                else if (dist > getDefense.attackRange && getManualInput)
                 {
                     VirtualInpuManager.getInstance.isAttacking = false;
                     VirtualInpuManager.getInstance.isWalking = true;

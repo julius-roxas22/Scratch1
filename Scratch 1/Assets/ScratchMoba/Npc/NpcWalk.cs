@@ -27,7 +27,7 @@ namespace DumbAssStudio
 
             player.getTargetHitPoint = targetPlayer.transform.position;
 
-            if (dist < stoppingDist)
+            if (dist < stoppingDist && !player.getManualInput.enabled)
             {
                 player.interactionObject = targetPlayer.gameObject;
                 player.isWalking = false;
